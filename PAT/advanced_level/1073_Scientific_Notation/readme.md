@@ -1,0 +1,1 @@
+*	参考[PAT_B_1024_科学计数法](https://github.com/jJayyyyyyy/cs/tree/master/OJ/PAT/basic_level/1024_%E7%A7%91%E5%AD%A6%E8%AE%A1%E6%95%B0%E6%B3%95)

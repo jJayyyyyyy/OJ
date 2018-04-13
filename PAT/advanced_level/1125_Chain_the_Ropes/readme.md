@@ -1,0 +1,1 @@
+*	参考[PAT_B_1070_结绳](https://github.com/jJayyyyyyy/cs/tree/master/OJ/PAT/basic_level/1070_%E7%BB%93%E7%BB%B3)

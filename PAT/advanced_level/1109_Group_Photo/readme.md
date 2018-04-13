@@ -1,0 +1,1 @@
+*   [PAT_B_1055](https://github.com/jJayyyyyyy/cs/tree/master/OJ/PAT/basic_level/1055_%E9%9B%86%E4%BD%93%E7%85%A7)
