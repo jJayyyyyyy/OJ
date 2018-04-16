@@ -15,9 +15,8 @@ public:
 		int head = 0;
 		for( int i = 0; i < nums.size(); i++ ){
 			if( nums[i] != val ){
-				nums[head], nums[i];
+				nums[head] = nums[i];
 				head++;
-
 			}
 		}
 		return head;
