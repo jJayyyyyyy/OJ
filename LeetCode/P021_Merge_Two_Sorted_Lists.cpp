@@ -1,5 +1,5 @@
 /*
- * https://leetcode.com/problems/merge-two-sorted-lists/submissions/1
+ * https://leetcode.com/problems/merge-two-sorted-lists/
  * 指针形式的归并排序
  *
  * Example

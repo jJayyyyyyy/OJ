@@ -1,5 +1,5 @@
 /*
- * https://leetcode.com/problems/remove-duplicates-from-sorted-list/description/
+ * https://leetcode.com/problems/merge-sorted-array/description/
  * 去掉值为有序表中重复的元素
  * 本题的输入是数组, 数组的插入, 需要将每一个后面的元素都往后推，时间复杂度为O(n), 因此建议新建一个数组用于存放答案. 除非题目有明确的空间限制, 但是这DS太傻了, 要考察插入操作, 还不如直接出链表
  * P021的输入是链表, 插入删除的时间复杂度为常量, 与本题的数组不同
