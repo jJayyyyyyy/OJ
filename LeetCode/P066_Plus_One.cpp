@@ -1,6 +1,7 @@
 /*
  * https://leetcode.com/problems/plus-one/description/
  * 模拟加法
+ * 同类题目 P066, P067
  * 注意，输入可能是一个很长的整数序列
  * 所以先【数组--->整数】，然后【整数--->数组】的做法是不合适的
 */
