@@ -26,19 +26,19 @@ public:
 	vector<vector<int>> generate(int numRows) {
 		vector<vector<int> > ans;
 		if( numRows > 0 ){
-			vector<int> line1;
-			line1.push_back(1);
-			ans.push_back(line1);
+			vector<int> preLine;
+			preLine.push_back(1);
+			ans.push_back(preLine);
 			for( int row = 1; row < numRows; row++ ){
 				vector<int> line;
 				line.push_back(1);
-				int prevRow = row - 1;
-				for( int col = 1; col < ans[prevRow].size(); col++ ){
-					int num = ans[prevRow][col - 1] + ans[prevRow][col];
+				for( int col = 1; col < preLine.size(); col++ ){
+					int num = preLine[col - 1] + preLine[col];
 					line.push_back(num);
 				}
 				line.push_back(1);
-				ans.push_back(line);
+				preLine = line;
+				ans.push_back(preLine);
 			}
 		}
 		return ans;
