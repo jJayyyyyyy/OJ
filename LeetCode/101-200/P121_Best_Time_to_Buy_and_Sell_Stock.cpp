@@ -1,7 +1,7 @@
 /*
  * https://leetcode.com/problems/best-time-to-buy-and-sell-stock/description/
  * 给出股票走势, 何时买入, 何时卖出, 利润最大
- * 同类题目 P121
+ * 同类题目 P121, P122
  * 
  * 
  * 思路: 同Solution
