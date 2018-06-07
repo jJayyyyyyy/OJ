@@ -2,7 +2,7 @@
  * https://leetcode.com/problems/reverse-bits/description/
  * 给定一个32位无符号数, 对其进行二进制意义上的翻转
  * 如32位的二进制数 0000 .... 0001, 将变成 1000 .... 0000 
- * 同类题目 P190
+ * 同类题目 P190, P191
  * 
  * 参考: https://leetcode.com/problems/reverse-bits/discuss/54741/O(1)-bit-operation-C++-solution-(8ms)
  * 有点像归并排序过程的相反顺序
@@ -23,6 +23,7 @@
 
 // #include <iostream>
 // #include <vector>
+// #define uint32_t unsigned int
 // using namespace std;
 
 // io加速
