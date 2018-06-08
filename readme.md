@@ -8,8 +8,8 @@
 
 *	最大连续子列和
 
-    [LeetCode, P053_Maximum_Subarray](https://github.com/jJayyyyyyy/OJ/blob/master/LeetCode/P053_Maximum_Subarray.cpp)
+    [LeetCode, P053_Maximum_Subarray](https://github.com/jJayyyyyyy/OJ/blob/master/LeetCode/001-100/P053_Maximum_Subarray.cpp)
 
 *   KMP 字符串匹配
 
-    [LeetCode, P028_Implement_strStr()](https://github.com/jJayyyyyyy/OJ/blob/master/LeetCode/P028_Implement_strStr().cpp)
+    [LeetCode, P028_Implement_strStr()](https://github.com/jJayyyyyyy/OJ/blob/master/LeetCode/001-100/P028_Implement_strStr().cpp)
