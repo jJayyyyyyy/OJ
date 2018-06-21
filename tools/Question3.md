@@ -26,7 +26,7 @@
 	
 		int mid;
 		for( mid = inL; mid <= inR; mid++ ){
-			if( in[inL] == val ){
+			if( in[mid] == val ){
 				break;
 			}
 		}
