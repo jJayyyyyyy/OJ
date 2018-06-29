@@ -1,43 +1,29 @@
 #include <iostream>
 #include <string>
-#include <sstream>
 #include <cctype>
 #include <vector>
 #include <algorithm>
-#include <set>
-#include <map>
+#include <unordered_map>
 using namespace std;
 
 struct School{
 	string name;
-	int cntScore, cntPeople;
+	int cntStu;
+	double doubleScore;
+	int totalScore;
 };
 
-bool cmp(School a, School b){
-	if( a.cntScore != b.cntScore ){
-		return a.cntScore > b.cntScore;
-	}else if( a.cntPeople != b.cntPeople ){
-		return a.cntPeople < b.cntPeople;
-	}else{
-		return a.name < b.name;
-	}
-}
-
-
-map<string, School> schoolList;
+unordered_map<string, School> schoolMap;
 vector<School> ansList;
 
-string lower(string s){
-	string ls = "";
-	for( int i = 0; i < s.size(); i++){
-		char ch = s[i];
-		ls += tolower(ch);
+void lower(string & s){
+	for( auto & ch : s ){
+		ch = tolower(ch);
 	}
-	return ls;
 }
 
 int getLevel(char ch){
-	int level;
+	int level = 0;
 	if( ch == 'B' ){
 		level = 1;
 	}else if( ch == 'A' ){
@@ -48,14 +34,28 @@ int getLevel(char ch){
 	return level;
 }
 
-int getScore(int score, int level){
-	double newScore = (double) score;
+double getScore(double score, int level){
+	double newScore = score;
 	if( level == 1 ){
-		newScore = (double)score / 1.5;
-	}else if( level == 3){
-		newScore = (double)score * 1.5;
+		newScore /= 1.5;
+	}else if( level == 2){
+		newScore = newScore;
+	}else if( level == 3 ){
+		newScore *= 1.5;
+	}else{
+		newScore = 0;
 	}
-	return (int)newScore;
+	return newScore;
+}
+
+bool cmp(School a, School b){
+	if( a.totalScore != b.totalScore ){
+		return a.totalScore > b.totalScore;
+	}else if( a.cntStu != b.cntStu ){
+		return a.cntStu < b.cntStu;
+	}else{
+		return a.name < b.name;
+	}
 }
 
 int main(){
@@ -66,43 +66,60 @@ int main(){
 	cin>>n;
 
 	string id, name;
-	int score, level;
+	int level;
+	double score;
 	for( int i = 0; i < n; i++ ){
 		cin>>id>>score>>name;
 		level = getLevel(id[0]);
-		name = lower(name);
-		score = getScore(score, level);
+		lower(name);
+		double weighedScore = getScore(score, level);
 
-		if( schoolList.find(name) != schoolList.end() ){
-			School scl = schoolList[name];
-			scl.name = name;
-			scl.cntScore += score;
-			scl.cntPeople++;
-			schoolList.erase(name);
-			schoolList[name] = scl;
+		if( schoolMap.find(name) != schoolMap.end() ){
+			School school = schoolMap[name];
+			school.name = name;
+			school.doubleScore += weighedScore;
+			school.cntStu++;
+			schoolMap.erase(name);
+			schoolMap[name] = school;
 		}else{
-			School scl;
-			scl.cntScore = score;
-			scl.cntPeople = 1;
-			scl.name = name;
-			schoolList[name] = scl;
+			School school;
+			school.doubleScore = weighedScore;
+			school.cntStu = 1;
+			school.name = name;
+			schoolMap[name] = school;
 		}
 	}
 
 
-	int i = 1;
-	cout<<schoolList.size()<<'\n';
-
 	// 坑：紫金港某些机器只有vs2008，不支持c++11的 auto
-	for(map<string, School>::iterator it = schoolList.begin(); it != schoolList.end(); it++ ){
+	unordered_map<string, School>::iterator it;
+	for( it = schoolMap.begin(); it != schoolMap.end(); it++ ){
 		School s = it->second;
+		s.totalScore = (int)s.doubleScore;
 		ansList.push_back(s);
 	}
 
 	sort( ansList.begin(), ansList.end(), cmp );
-	for( int i = 0; i < ansList.size(); i++ ){
-		cout<<i+1<<' '<<ansList[i].name<<' '<<ansList[i].cntScore<<' '<<ansList[i].cntPeople<<'\n';;
+
+	cout<<ansList.size()<<'\n';
+	int rank = 1;
+	cout<<rank<<' '<<ansList[0].name<<' '<<ansList[0].totalScore<<' '<<ansList[0].cntStu<<'\n';
+
+	for( int i = 1; i < ansList.size(); i++ ){
+		if( ansList[i].totalScore != ansList[i - 1].totalScore ){
+			rank = i + 1;
+		}
+		cout<<rank<<' '<<ansList[i].name<<' '<<ansList[i].totalScore<<' '<<ansList[i].cntStu<<'\n';
 	}
 
 	return 0;
 }
+
+/*
+坑1: 紫金港某些机器只有vs2008，不支持c++11的 auto
+
+坑2: 加权总分定义为乙级总分/1.5 + 甲级总分 + 顶级总分*1.5的【整数部分】
+double doubleScore = ...;
+int totalScore = (int) doubleScore;
+
+*/
