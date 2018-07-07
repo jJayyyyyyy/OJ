@@ -10,6 +10,7 @@ https://leetcode.com/problems/move-zeroes/discuss/72005/My-simple-C++-solution
 */
 
 #include <iostream>
+#include <vector>
 using namespace std;
 
 // io加速
