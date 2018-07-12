@@ -1,5 +1,5 @@
 /*
-https://leetcode.com/problems/power-of-three/description/
+https://leetcode.com/problems/power-of-four/description/
 判断一个正整数( [0, 2^32] ) 是否为 4 的指数
 同类题目 P342
 
