@@ -1,15 +1,12 @@
 /*
-https://leetcode.com/problems/power-of-four/description/
-判断一个正整数( [0, 2^32] ) 是否为 4 的指数
-同类题目 P342
+https://leetcode.com/problems/reverse-string/description/
+反转字符串
+同类题目 P344, P345
 
-思路:
-1. num 是正数
-2. num 是 2 的指数
-3. num 是 4 的指数
 */
 
 #include <iostream>
+#include <algorithm>
 using namespace std;
 
 class Solution {
