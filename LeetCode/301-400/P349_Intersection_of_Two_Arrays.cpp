@@ -1,7 +1,7 @@
 /*
 https://leetcode.com/problems/intersection-of-two-arrays/description/
 给定两个数组（可能包含重复元素），求其交集
-同类题目 P349, P350
+同类题目 P349, P350, P383
 
 思路
 1. 使用集合容器unordered_set, 先对两个数组去重

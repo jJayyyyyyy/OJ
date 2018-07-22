@@ -1,7 +1,7 @@
 /*
 https://leetcode.com/problems/valid-perfect-square/description/
 判断一个数是否为完全平方数，本题不能使用库函数sqrt()
-同类题目 P367
+同类题目 P367, P374
 
 参考: https://leetcode.com/problems/valid-perfect-square/discuss/83874/A-square-number-is-1+3+5+7+...-JAVA-code
 方法1. 如果num是完全平方数，那么 num = 1 + 3 + 5 + 7 + ...

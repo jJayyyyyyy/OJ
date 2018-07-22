@@ -1,7 +1,7 @@
 /*
 https://leetcode.com/problems/intersection-of-two-arrays-ii/description/
 给定两个数组（可能包含重复元素），求其交集(重复元素多次计数)
-同类题目 P349, P350
+同类题目 P349, P350, P383
 
 思路
 1. 先排序
