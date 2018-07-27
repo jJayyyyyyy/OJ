@@ -1,7 +1,7 @@
 /*
-https://leetcode.com/problems/sum-of-left-leaves/description/
-找到所有的左叶结点, 进行值的求和
-同类题目 P412
+https://leetcode.com/problems/longest-palindrome/description/
+回文数
+同类题目 P409
 
 */
 
