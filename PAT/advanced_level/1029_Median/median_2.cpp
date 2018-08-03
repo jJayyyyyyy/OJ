@@ -1,11 +1,11 @@
 #include <iostream>
-#define MAXSIZE 1000004
-typedef long long ll;
+#define MAXSIZE 200004
+#define ll long long
 using namespace std;
 
 ll a[MAXSIZE], b[MAXSIZE];
 
-int mergeArray(ll a[], int lenA, ll b[], int lenB, int mid){
+void mergeArray(int lenA, int lenB, int mid){
 	int i=0, j=0, k=0;
 
 	while( k < mid ){
@@ -22,27 +22,27 @@ int mergeArray(ll a[], int lenA, ll b[], int lenB, int mid){
 	}else{
 		cout<<b[j]<<'\n';
 	}
-
-	return 0;
 }
 
 int main(){
 	ios::sync_with_stdio(false);
 	cin.tie(0);
 
-	int lenA, lenB, i, j;
+	int lenA, lenB;
+	
 	cin>>lenA;
-	for(i=0; i<lenA; ++i){
+	for( int i = 0; i < lenA; i++ ){
 		cin>>a[i];
 	}
+	
 	cin>>lenB;
-	for(j=0; j<lenB; ++j){
+	for( int j = 0; j < lenB; j++){
 		cin>>b[j];
 	}
 
 	int mid = (lenA + lenB - 1) / 2;
 
-	mergeArray(a, lenA, b, lenB, mid);
+	mergeArray(lenA, lenB, mid);
 
 	return 0;
 }

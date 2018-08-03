@@ -2,50 +2,49 @@
 #include <algorithm>
 #define MAXSIZE 1000002
 #define DMAXSIZE 2000004
-typedef long long ll;
+#define ll long long
 using namespace std;
 
 ll a[MAXSIZE], b[MAXSIZE];
 ll c[DMAXSIZE];
 
-int mergeArray(ll a[], int lenA, ll b[], int lenB, ll tmp[]){
+void mergeArray(int lenA, int lenB){
 	int i=0, j=0, k=0;
 
-	while( i<lenA && j<lenB ){
+	while( i < lenA && j < lenB ){
 		if( a[i] < b[j] ){
-			tmp[k++] = a[i++];
+			c[k++] = a[i++];
 		}else{
-			tmp[k++] = b[j++];
+			c[k++] = b[j++];
 		}
 	}
 
 	while( i < lenA ){
-		tmp[k++] = a[i++];
+		c[k++] = a[i++];
 	}
 	while( j < lenB ){
-		tmp[k++] = b[j++];
+		c[k++] = b[j++];
 	}
-
-	return 0;
 }
 
 int main(){
 	ios::sync_with_stdio(false);
 	cin.tie(0);
 
-	int lenA, lenB, i, j;
+	int lenA, lenB;
+	
 	cin>>lenA;
-	for(i=0; i<lenA; ++i){
+	for( int i = 0; i < lenA; i++ ){
 		cin>>a[i];
 	}
+	
 	cin>>lenB;
-	for(j=0; j<lenB; ++j){
+	for(int j = 0; j < lenB; j++ ){
 		cin>>b[j];
 	}
 
-	mergeArray(a, lenA, b, lenB, c);
+	mergeArray(lenA, lenB);
 
 	cout<<c[ (lenA + lenB - 1) / 2 ]<<'\n';
-
 	return 0;
 }
