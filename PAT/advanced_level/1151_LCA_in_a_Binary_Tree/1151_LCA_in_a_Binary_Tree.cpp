@@ -49,6 +49,7 @@ int pre[MAXSIZE] = {0}, in[MAXSIZE] = {0};
 // val2ix is a map that converts val to index in in[] sequence
 unordered_map<int, int> val2ix;
 
+/*
 Node * inPreCreateTree(int inL, int inR, int preL, int preR){
 	if( preL > preR ){
 		return NULL;
@@ -69,26 +70,7 @@ Node * inPreCreateTree(int inL, int inR, int preL, int preR){
 	root->rchild = inPreCreateTree(mid+1, inR, preL+numLeft+1, preR);
 	return root;
 }
-
-void LCA(Node * root, int lVal, int rVal, bool positionChanged){
-	if( root != NULL ){
-		if( root->val > lVal && root->val < rVal ){
-			if( positionChanged == false ){
-				cout<<"LCA of "<<lVal<<" and "<<rVal<<" is "<<root->val<<".\n";
-			}else{
-				cout<<"LCA of "<<rVal<<" and "<<lVal<<" is "<<root->val<<".\n";
-			}
-		}else if( root->val == lVal ){
-			cout<<lVal<<" is an ancestor of "<<rVal<<".\n";
-		}else if( root->val == rVal ){
-			cout<<rVal<<" is an ancestor of "<<lVal<<".\n";
-		}else if( root->val > rVal ){
-			LCA(root->lchild, lVal, rVal, positionChanged);
-		}else{
-			LCA(root->rchild, lVal, rVal, positionChanged);
-		}
-	}
-}
+*/
 
 // preRoot is the index of Root in pre[] sequence, 相当于preL
 // inL is the left bound of in[] sequence
