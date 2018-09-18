@@ -29,3 +29,15 @@
 *   大整数运算
 
     [LeetCode, P415_Add_Strings](https://github.com/jJayyyyyyy/OJ/blob/master/LeetCode/401-500/P415_Add_Strings.cpp)
+
+*   LCA
+
+    [LeetCode, P235_Lowest_Common_Ancestor_of_a_BST](https://github.com/jJayyyyyyy/OJ/blob/master/LeetCode/201-300/P235_Lowest_Common_Ancestor_of_a_BST.cpp)
+
+    [PAT, A1143_Lowest_Common_Ancestor](https://github.com/jJayyyyyyy/OJ/tree/master/PAT/advanced_level/1143_Lowest_Common_Ancestor)
+
+    [PAT, A1151_LCA_in_a_Binary_Tree](https://github.com/jJayyyyyyy/OJ/blob/master/PAT/advanced_level/1151_LCA_in_a_Binary_Tree/1151_LCA_in_a_Binary_Tree.cpp)
+
+*   dp1
+
+    [LeetCode, P198_House_Robber](https://github.com/jJayyyyyyy/OJ/blob/master/LeetCode/001-100/P192_House_Robber.cpp)
