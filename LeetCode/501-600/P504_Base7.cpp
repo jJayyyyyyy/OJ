@@ -15,27 +15,23 @@ using namespace std;
 class Solution{
 public:
 	string convertToBase7(int num){
-		string ans = "";
-		bool positive = true;
+		bool isPositive = true;
 		if( num < 0 ){
 			num = -num;
-			positive = false;
+			isPositive = false;
 		}
 
-		int quotient=0, remain=0;
-		while(true){
-			quotient = num / 7;
+		string ans = "";
+		int remain;
+		do{
 			remain = num % 7;
-			ans += to_string(remain);
-			if( quotient == 0 ){
-				break;
-			}
-            num = quotient;
-		}
-		if( positive == false ){
-			ans += "-";
-		}
+			ans += (remain + '0');
+			num /= 7;
+		}while(num != 0);
 		reverse(ans.begin(), ans.end());
+		if( isPositive == false ){
+			ans = '-' + ans;
+		}
 		return ans;
 	}
 };
