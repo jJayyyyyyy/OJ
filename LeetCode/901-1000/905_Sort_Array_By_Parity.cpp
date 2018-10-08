@@ -1,7 +1,7 @@
 /*
 https://leetcode.com/problems/sort-array-by-parity/description/
 把偶数全都放到奇数前面
-同类题目 P905
+同类题目 P905, P917
 */
 
 #include <iostream>
