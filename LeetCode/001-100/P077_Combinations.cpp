@@ -1,7 +1,7 @@
 /*
 https://leetcode.com/problems/combinations/description/
 n 个数中选 k 个, 一共有 C(k,n) 种组合, 求出所有组合
-同类题目 P077
+同类题目 P077, P784
 
 思路类似于 PAT 求所有最短路径中的 DFS
 在 dfs 中进行循环
