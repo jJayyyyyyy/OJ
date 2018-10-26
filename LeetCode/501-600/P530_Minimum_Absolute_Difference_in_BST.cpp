@@ -1,7 +1,7 @@
 /*
 https://leetcode.com/problems/minimum-absolute-difference-in-bst/description/
-给定BST, 求 min( abs(v[i] - v[j]) )
-同类题目 P530
+给定BST, 求 min( abs(v[i] - v[j]) ). 注意, 本题中的结点非负
+同类题目 P530, P783
 */
 
 #include <iostream>
