@@ -1,9 +1,7 @@
 /*
-https://leetcode.com/problems/shortest-distance-to-a-character/description/
-给定一个字符串 S, 一个字符 C, 求 S 中每一个字符到 C 的最短距离
-同类题目 P821
-
-
+https://leetcode.com/problems/unique-morse-code-words/description/
+输入一组单词, 进行 Morse 编码, 统计最后有多少组不同的 Morse 码 (不同的单词, 可能得到相同的Morse码)
+同类题目 P804
 */
 
 #include <iostream>
