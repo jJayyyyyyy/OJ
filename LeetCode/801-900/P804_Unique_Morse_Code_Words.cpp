@@ -6,6 +6,7 @@ https://leetcode.com/problems/unique-morse-code-words/description/
 
 #include <iostream>
 #include <string>
+#include <unordered_set>
 using namespace std;
 
 class Solution {
