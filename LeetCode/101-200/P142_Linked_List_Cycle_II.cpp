@@ -12,6 +12,36 @@ https://leetcode.com/problems/linked-list-cycle-ii/discuss/44793/O(n)-solution-b
 
 2. 如果是循环链表, 那么令 fast = head, 然后 slow 和 fast 同步前进, 直到相遇, 相遇的地方就是循环链表的起点
 
+3. 证明:
+
+A ---> B ---> C ---> D ---> E
+              ↑             |
+              |             |
+              ·-------------·
+
+
+|-------- k ---------|
+              |----- r -----|
+|----- s -----|
+              |   m  |  r-m |
+
+假设 slow 走了 k 步之后和 fast 相遇(即上图中的 D ), 那么 fast 走了 2k 步
+假设 循环链表的长度为 r, fast 在循环链表里面走了 n 圈, 那么 2k - k = k = n·r
+假设 head 到循环链表开头的长度为 s, 即 A->C 的距离为 s, 那么 k = nr = s + m
+即 s = k - m
+即 s = (n-1)r + (r-m)
+左边就是 A 到 C 的距离, 右边就是 slow 在循环链表里面还要再走的距离
+考虑到 (n-1)r % r = 0
+所以右边相当于还要再走 r-m
+
+所以这个等式 s = r - m 的意义就是
+fast = head;
+while( slow != fast ){
+	slow = slow->next;
+	fast = fast->next;
+}
+return slow;
+
 */
 
 #include <iostream>
