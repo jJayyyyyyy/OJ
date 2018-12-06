@@ -1,8 +1,10 @@
 /*
- * https://leetcode.com/problems/add-two-numbers/description/
- * 给定两个倒序的链表，每一个结点表示一位数字。求其和，并用相同的链表形式(倒序)返回
+https://leetcode.com/problems/add-two-numbers/description/
+给定两个链表，链表中每一个结点表示一位数字，链表是倒着写的，即 2 -> 4 -> 3 表示 342
+求两个链表所代表的数字的和
+并用相同的链表形式(倒序)返回
 */
-/*
+
 #include <iostream>
 using namespace std;
 
@@ -11,7 +13,6 @@ struct ListNode {
 	ListNode *next;
 	ListNode(int x) : val(x), next(NULL) {}
 };
-*/
 
 class Solution {
 public:
@@ -51,7 +52,6 @@ public:
     }
 };
 
-/*
 int main(){
 	ListNode *l1 = new ListNode(2);
 	l1->next = new ListNode(4);
@@ -68,4 +68,3 @@ int main(){
 	}
 	return 0;
 }
-*/
