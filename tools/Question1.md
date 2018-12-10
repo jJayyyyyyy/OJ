@@ -55,16 +55,31 @@
 *	素数
 
 	```cpp
+	// 基本方法
+	bool isPrime(int num){
+		if( num == 0 || num == 1 ){
+			return false;
+		}
+
+		for( int i = 2; i * i <= num; i++ ){
+			if( num % i == 0 ){
+				return false;
+			}
+		}
+
+		return true;
+	}
+
 	// 筛表法，找出MAXSIZE以内的素数，注意MAXSIZE应为奇数
 	#define MAXSIZE 100005
 	bool primeList[MAXSIZE] = {false, false, true};
 	
-	getPrimeList(){
+	void getPrimeList(){
 		for( int i = 3; i < MAXSIZE; i += 2 ){
 			primeList[i] = true;
 			primeList[i + 1] = false;
 		}
-		
+
 		int upperBound = (int) sqrt(MAXSIZE);
 		for( int i = 3; i < upperBound; i += 2){
 			if( primeList[i] == true ){
@@ -88,7 +103,7 @@
 			return get_gcd(b, a % b);
 		}
 	}
-	
+
 	// 最小公倍数, the Lowest Common Multiple
 	int get_lcm(int a, int b){
 		int gcd = get_gcd(a, b);
