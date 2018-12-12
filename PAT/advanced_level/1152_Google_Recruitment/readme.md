@@ -2,7 +2,7 @@
 
 In July 2004, Google posted on a giant billboard along Highway 101 in Silicon Valley (shown in the picture below) for recruitment. The content is super-simple, a URL consisting of the first 10-digit prime found in consecutive digits of the natural constant e. The person who could find this prime number could go to the next step in Google's hiring process by visiting this website.
 
-![google](https://github.com/jJayyyyyyy/OJ/blob/master/advanced_level/1152_Google_Recruitment/assets/google.jpg)
+![google](https://github.com/jJayyyyyyy/OJ/blob/master/PAT/advanced_level/1152_Google_Recruitment/assets/google.jpg)
 
 The natural constant e is a well known transcendental number（超越数）. The first several digits are: e = 2.718281828459045235360287471352662497757247093699959574966967627724076630353547594571382178525166427427466391932003059921... where the 10 digits in bold are the answer to Google's question.
 
