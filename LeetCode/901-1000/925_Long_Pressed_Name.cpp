@@ -1,3 +1,9 @@
+/*
+https://leetcode.com/problems/long-pressed-name/description/
+判断字符串name是不是字符串typed的子串(可以是不连续子串, 但是字符相对顺序必须相同)
+同类题目 P925
+*/
+
 #include <iostream>
 #include <vector>
 #include <string>
@@ -52,7 +58,7 @@ public:
 	}
 };
 
-class Solution {
+class Solution2 {
 public:
 	bool isLongPressedName(string name, string typed) {
 		int len1 = name.size();
