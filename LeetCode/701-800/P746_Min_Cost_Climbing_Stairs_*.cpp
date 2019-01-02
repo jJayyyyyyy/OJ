@@ -13,7 +13,8 @@ f[i] = cost[i] + min(f[i-1], f[i-2])
 */
 
 #include <iostream>
-#include <string>
+#include <vector>
+#include <algorithm>
 using namespace std;
 
 const static auto c = []() {
