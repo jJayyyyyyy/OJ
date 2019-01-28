@@ -1,4 +1,6 @@
-##	[原题](https://www.patest.cn/contests/pat-b-practise/1005)： 1005. 继续(3n+1)猜想 (25)
+##	1005. 继续(3n+1)猜想 (25)
+
+[原题链接](https://www.patest.cn/contests/pat-b-practise/1005)
 
 卡拉兹(Callatz)猜想已经在1001中给出了描述。在这个题目里，情况稍微有些复杂。
 
@@ -6,138 +8,136 @@
 
 现在给定一系列待验证的数字，我们只需要验证其中的几个关键数，就可以不必再重复验证余下的数字。你的任务就是找出这些关键数字，并按从大到小的顺序输出它们。
 
-###	输入格式
+<br>
+
+##	输入格式
 
 每个测试输入包含1个测试用例，第1行给出一个正整数K(<100)，第2行给出K个互不相同的待验证的正整数n(1<n<=100)的值，数字间用空格隔开。
 
-###	输出格式
+<br>
+
+##	输出格式
 
 每个测试用例的输出占一行，按从大到小的顺序输出关键数字。数字间用1个空格隔开，但一行中最后一个数字后没有空格。
 
-###	输入样例
+<br>
 
-	6
-	3 5 6 7 8 11
+##	输入样例
 
-###	输出样例
+```
+6
+3 5 6 7 8 11
+```
 
-	7 6
+<br>
 
-###	注意
+##	输出样例
 
-	时间限制： 400 ms
-	内存限制： 65536 kB
-	代码长度限制： 8000 B
-	判题程序： Standard
-	作者： CHEN, Yue
+```
+7 6
+```
 
-<br/><br/>
+##	注意
 
-#	题目分析
+```
+时间限制： 400 ms
+内存限制： 65536 kB
+代码长度限制： 8000 B
+判题程序： Standard
+作者： CHEN, Yue
+```
 
-1.	一种思路
+<br>
 
-	抽象结构体，包含两个变量，其一是输入的数字`value`，其二是标志符`key`，用于标明这个数是否为`关键数`
+##	题目分析
 
-	```c
-	typedef struct{
-		int value;
-		int key;
-	}Number;
+1.	思路
+
+	定义结构体，包含两个变量，其一是输入的数字 `val`, 其二是标志符 `iskey`, 用于标明这个数是否为 `关键数`
+
+	```cpp
+	struct Number
+	{
+		int val;
+		int iskey;
+	};
 	```
 
-	将输入存为一个数组`num[]`。首先假设每个数都是关键数`TRUE`，
+	将输入数组 `numList`, 并首先假设每个数都是关键数 `numList[i].iskey = true`. 然后从第一个数开始遍历 `numList`, 进行 `卡拉兹` 运算.
 
-	```c
-	int init_num(Number *num, const int us_N);
-	```
+	若在 `卡拉兹` 运算过程中出现了与 `numList` 中相同的数字, 则将 `numList` 中的该元素的 `iskey` 标为 `false`.
 
-	然后从第一个数开始遍历数组`num`，若在`卡拉兹`运算过程中，出现的数字与`num`中的数字相同，则将该数字的`key`标为`FALSE`。
+	<br>
 
-	在第一个数完成`卡拉兹`过程后，对第二个数进行同样处理。但若第二个数的`key`为`FALSE`，则直接跳过。因为根据定义，第二个数不是关键数。后面以此类推。
+2.	更新
 
-	```c
-	int filter_keys(Number *num, const int us_N);
-	```
+	1.	增加cpp的实现
 
-2.	抽象
+		*	根据C++ Primer 4th Edition 中文版
 
-	首先是抽象出上述结构体。
-	
-	写完以后发现代码略长，因此可以试着抽象出每一个步骤，成为子函数，便于阅读。
+			关键字【class】和【struct】定义【类】的唯一差别在于默认访问级别。默认情况下，struct的成员为【public】，而class的成员为【private】.
 
-3.	打印输出
+		*	两种方式进行递减快排：利用兼容C的`<cstdlib>`之`qsort()`；利用`<algorithm>`之`sort()`。
 
-	由于行尾不能有空格，引入一个`is_start`标志。第一次出现关键数时用`"%d"`，并把`is_start`置零。后续的关键数则用`" %d"`
+			*	qsort()
 
-3.	其他
+				```c
+				#include <cstdlib>
+				//...
 
-	利用预定义，使逻辑和代码更清晰
+				int cmp_dec_c_qsort(const void *p1, const void *p2){
+					const Number *a1 = (const Number *)p1;
+					const Number *a2 = (const Number *)p2;
 
-	```c
-	#define TRUE	1
-	#define FALSE	0
-	```
+					return a1->value < a2->value;
+				}
+				//...
 
-4.	更新1---增加cpp的实现
+				qsort(num, us_N, sizeof(Number), cmp_dec_c_qsort);
+				```
 
-	*	根据C++ Primer 4th Edition 中文版
+			*	sort()
 
-		关键字【class】和【struct】定义【类】的唯一差别在于默认访问级别。默认情况下，struct的成员为【public】，而class的成员为【private】.
+				```cpp
+				#include <algorithm>
+				//...
 
-	*	两种方式进行递减快排：利用兼容C的`<cstdlib>`之`qsort()`；利用`<algorithm>`之`sort()`。
+				int cmp_dec_cpp_sort(const Number p1, const Number p2){
+					return p1.value > p2.value;
+				}
+				//...
 
-		*	qsort()
+				sort(num, num+us_N, cmp_dec_cpp_sort);
+				//sort(num.begin*(), num.end(), cmp);
+				//sort(&num[0], &num[us_N], cmp);
+				```
 
-			```c
-			#include <cstdlib>
-			//...
+				注意
+				1.	两个cmp()要求返回值相反。
+				2.	C++的cmp()要求传递变量的值，而C的cmp()传入的是指针(地址)。
+				3.	sort()和qsort()的接口不同。  
+				第2点，有的地方会写成引用形参【&】的形式，但由于cmp()的不改变实参的值，所以和只传值效果相同。
 
-			int cmp_dec_c_qsort(const void *p1, const void *p2){
-				const Number *a1 = (const Number *)p1;
-				const Number *a2 = (const Number *)p2;
+				以上作为[1015_德才论](https://github.com/jJayyyyyyy/cs/tree/master/OJ/PAT/basic_level/1015_%E5%BE%B7%E6%89%8D%E8%AE%BA#题目分析)的补充。
 
-				return a1->value < a2->value;
-			}
-			//...
+	2.	精简代码, 重命名变量
 
-			qsort(num, us_N, sizeof(Number), cmp_dec_c_qsort);
-			```
-
-		*	sort()
-
-			```cpp
-			#include <algorithm>
-			//...
-
-			int cmp_dec_cpp_sort(const Number p1, const Number p2){
-				return p1.value > p2.value;
-			}
-			//...
-
-			sort(num, num+us_N, cmp_dec_cpp_sort);
-			//sort(num.begin*(), num.end(), cmp);
-			//sort(&num[0], &num[us_N], cmp);
-			```
-	
-			注意
-			1.	两个cmp()要求返回值相反。
-			2.	C++的cmp()要求传递变量的值，而C的cmp()传入的是指针(地址)。
-			3.	sort()和qsort()的接口不同。  
-			第2点，有的地方会写成引用形参【&】的形式，但由于cmp()的不改变实参的值，所以和只传值效果相同。
-  
-			以上作为[1015_德才论](https://github.com/jJayyyyyyy/cs/tree/master/OJ/PAT/basic_level/1015_%E5%BE%B7%E6%89%8D%E8%AE%BA#题目分析)的补充。
+	<br>
 
 #	部分测试用例
 
 *	test1
 
-		输入
-		6
-		3 5 6 7 8 11
+	```
+	输入
+	6
+	3 5 6 7 8 11
 
-		输出
-		7 6
+	输出
+	7 6
+	```
+
+	<br>
 
 #	其他参考
 
@@ -170,4 +170,3 @@
 *	[Beginners guide to the std::sort() function](http://www.cplusplus.com/articles/NhA0RXSz/)
 
 *	[1015_德才论](https://github.com/jJayyyyyyy/cs/tree/master/OJ/PAT/basic_level/1015_%E5%BE%B7%E6%89%8D%E8%AE%BA)
-

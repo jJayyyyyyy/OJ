@@ -1,101 +1,96 @@
 #include <stdio.h>
 #include <stdlib.h>
-#define TRUE	1
-#define FALSE	0
+#define MAXSIZE 120
 
-typedef struct{
-	int value;
-	int key;
+typedef struct
+{
+	int val;
+	int iskey;
 }Number;
 
-int init_num(Number *num, const int us_N);
+Number numList[MAXSIZE];
 
-int cmp_dec(const void *p1, const void *p2);
-
-int filter_keys(Number *num, const int us_N);
-
-int print_key_value(const Number *num, const int us_N);
-
-int main(int argc, char *argv[]){
-	int us_N=0, sub_num=0, i=0;
-	Number *num;
-
-	scanf("%d", &us_N);
-	num = (Number *)malloc( us_N*sizeof(Number) );
-
-	init_num(num, us_N);
-
-	qsort(num, us_N, sizeof(Number), cmp_dec);
-
-	filter_keys(num, us_N);
-
-	print_key_value(num, us_N);
-
-	free(num);
-
-	return 0;
-}
-
-
-int init_num(Number *num, const int us_N){
-	int i=0;
-	for(i=0; i<us_N; i++){
-		scanf("%d", &num[i].value);
-		num[i].key = TRUE;
-	}
-
-	return 0;
-}
-
-int cmp_dec(const void *p1, const void *p2){
-	const Number *a1 = (const Number *)p1;
-	const Number *a2 = (const Number *)p2;
-
-	if( a1->value < a2->value)
+int cmp(const void * a, const void * b)
+{
+	const Number *a1 = (const Number *)a;
+	const Number *b1 = (const Number *)b;
+	int ans = a1->val - b1->val;
+	if( ans < 0 )
+	{
 		return 1;
-	else if( a1->value == a2->value )
+	}
+	else if( ans == 0 )
+	{
 		return 0;
+	}
 	else
+	{
 		return -1;
+	}
 }
 
-int filter_keys(Number *num, const int us_N){
-	int i=0, j=0, sub_num=0;
-
-	for(i=0; i<us_N; i++){
-		if( num[i].key==TRUE ){
-			sub_num = num[i].value;
-			while( sub_num != 1 ){
-				if( sub_num%2 )
-					sub_num = (sub_num*3 + 1) / 2;
+void doCallatz(int len)
+{
+	for( int i = 0; i < len; i++ )
+	{
+		if( numList[i].iskey == 1 )
+		{
+			int val = numList[i].val;
+			while( val != 1 )
+			{
+				if( val % 2 != 0 )
+				{
+					val = (val * 3 + 1) / 2;
+				}
 				else
-					sub_num /= 2;
-				for( j=0; j<us_N; j++ ){
-					if( j==i || num[j].key==FALSE )
-						continue;
-					else if( num[j].value==sub_num ){
-						num[j].key = FALSE;
+				{
+					val /= 2;
+				}
+				for( int j = 0; j < len; j++ )
+				{
+					if( numList[j].val == val && j != i )
+					{
+						numList[j].iskey = 0;
 					}
 				}
 			}
 		}
 	}
-
-	return 0;
 }
 
-int print_key_value(const Number *num, const int us_N){
-	int i=0, is_start=1;
-
-	for(i=0; i<us_N; i++){
-		if( num[i].key==TRUE ){
-			if( is_start==1 ){
-				printf("%d", num[i].value);
-				is_start = 0;
-			}else
-				printf(" %d", num[i].value);
+void printCallatz(int len)
+{
+	int isFirst = 1;
+	for( int i = 0; i < len; i++ )
+	{
+		if( numList[i].iskey == 1 )
+		{
+			if( isFirst == 1 )
+			{
+				printf("%d", numList[i].val);
+				isFirst = 0;
+			}
+			else
+			{
+				printf(" %d", numList[i].val);
+			}
 		}
 	}
+}
 
+int main()
+{
+	int len, val;
+	scanf("%d", &len);
+	for( int i = 0; i < len; i++ )
+	{
+		scanf("%d", &val);
+		numList[i].val = val;
+		numList[i].iskey = 1;
+	}
+
+	qsort(numList, len, sizeof(Number), cmp);
+	doCallatz(len);
+	printCallatz(len);
 	return 0;
 }
