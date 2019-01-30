@@ -98,13 +98,15 @@
 		我们也可先用`getline()`读取整行，再转化为`stringstream ss`对象，再次调用等效于split的`getline(ss, sub_str, ' ')`，从而取出sub_str。代码段如下
 
 		```cpp
-		string us_str, sub_str;
-		getline(cin, us_str);
-		stringstream ss(us_str);
+		string line;
+		getline(cin, line);
+		stringstream ss(line);
 
-		while( !ss.eof() ){
-			getline(ss, sub_str, ' ');
-			str_stack.push(sub_str);
+		while( !ss.eof() )
+		{
+			string str;
+			getline(ss, str, ' ');
+			stk.push(str);
 		}
 		```
 
@@ -146,3 +148,4 @@
 
 	注意，使用`istringstream`和`streamstring`类型都要`#include <sstream>`
 
+*	[getline](http://www.cplusplus.com/reference/string/string/getline/?kw=getline)

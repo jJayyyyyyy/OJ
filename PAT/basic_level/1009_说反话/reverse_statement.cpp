@@ -3,23 +3,27 @@
 #include <stack>
 using namespace std;
 
-int main(){
-	stack<string> str_stack;
-	string us_str, sub_str;
+int main()
+{
+	stack<string> stk;
 
-	getline(cin, us_str);
-	stringstream ss(us_str);
+	string line;
+	getline(cin, line);
+	stringstream ss(line);
 
-	while( !ss.eof() ){
-		getline(ss, sub_str, ' ');
-		str_stack.push(sub_str);
+	while( !ss.eof() )
+	{
+		string str;
+		getline(ss, str, ' ');
+		stk.push(str);
 	}
 
-	cout<<str_stack.top();
-	str_stack.pop();
-	while(!str_stack.empty()){
-		cout<<' '<<str_stack.top();
-		str_stack.pop();
+	cout<<stk.top();
+	stk.pop();
+	while( stk.size() != 0 )
+	{
+		cout<<' '<<stk.top();
+		stk.pop();
 	}
 
 	return 0;
