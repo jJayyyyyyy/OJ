@@ -16,6 +16,59 @@
 
 ###	输入样例
 
+```
+10
+C J
+J B
+C B
+B B
+B C
+C C
+C B
+J B
+B C
+J J
+```
+
+###	输出样例
+
+```
+5 3 2
+2 3 5
+B B
+```
+
+###	注意
+
+```
+时间限制： 100 ms
+内存限制： 65536 kB
+代码长度限制： 8000 B
+判题程序： Standard
+作者： CHEN, Yue
+```
+
+<br>
+
+#	题目分析
+
+1.	存储结构
+
+	结构体中应当记录各自胜平负的次数，以及各种手势的胜利次数。
+
+	```c
+	typedef struct{
+		int win, tie, lose;
+		int option_wincnt[128];
+	} Player;
+	```
+
+#	部分测试用例
+
+*	test1
+
+	```
+	输入
 	10
 	C J
 	J B
@@ -28,81 +81,11 @@
 	B C
 	J J
 
-###	输出样例
-
+	输出
 	5 3 2
 	2 3 5
 	B B
-
-###	注意
-
-	时间限制： 100 ms
-	内存限制： 65536 kB
-	代码长度限制： 8000 B
-	判题程序： Standard
-	作者： CHEN, Yue
-
-<br/><br/>
-
-#	题目分析
-
-1.	存储结构
-
-	结构体中应当记录各自胜平负的次数，以及各种手势的胜利次数。
-
-	```c
-	typedef struct{
-		int cnt_Win;
-		int cnt_Tie;
-		int cnt_Lose;
-		int cnt_Bu_Win;
-		int cnt_Chui_Win;
-		int cnt_Jian_Win;
-	}Player;
 	```
-
-2.	输入
-
-	每输入一行，就进行胜平负的判断与记录。
-
-	```c
-	for(i=0; i<us_N; i++){
-		scanf("%s %s", choice_a , choice_b);
-		judge(a, choice_a[0], b, choice_b[0]);
-	}
-	```
-
-2.	输出
-
-	从结构体中读出甲乙各自的胜平负次数，再从结构体中读出胜利次数最多的手势。
-
-	```c
-	printf("%d %d %d\n", a->cnt_Win, a->cnt_Tie, a->cnt_Lose);
-	printf("%d %d %d\n", b->cnt_Win, b->cnt_Tie, b->cnt_Lose);
-	printf("%c %c\n", how_to_win(a), how_to_win(b));
-	```
-
-#	部分测试用例
-
-*	test1
-
-		输入
-		10
-		C J
-		J B
-		C B
-		B B
-		B C
-		C C
-		C B
-		J B
-		B C
-		J J
-
-		输出
-		5 3 2
-		2 3 5
-		B B
 
 #	其他参考
 
@@ -113,5 +96,35 @@
 	scanf("%c %c", &choice_a , &choice_b);
 	```
 
-	则b会读入空格，因此需要用其他方法读取输入。
+	则b会读入空格。 有三种解决方案
 
+	*	1. 使用其他语言, 如 `C++`
+
+	*	2. 用 `scanf("%c")` 读取多余的 `空格` 和 `换行符`
+
+		```c
+		int n, i;
+		char tmp, option1;
+		scanf("%d%c", &n, &tmp);
+		for( i = 0; i < n; i++ )
+		{
+			scanf("%c%c%c%c", &option1, &tmp, &option2, &tmp);
+			/// ...
+		}
+		```
+
+	*	3. 使用 `fgets()` 读取整行
+
+		```c
+		int n, i;
+		char option1, option2, line[8];
+		scanf("%d", &n);
+		fgets(line, 8, stdin);
+		for( i = 0; i < n; i++ )
+		{
+			fgets(line, 8, stdin);
+			option1 = line[0];
+			option2 = line[2];
+			// ...
+		}
+		```
