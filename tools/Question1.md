@@ -56,17 +56,26 @@
 
 	```cpp
 	// 基本方法
-	bool isPrime(int num){
-		if( num == 0 || num == 1 ){
+	bool isPrime(int num)
+	{
+		if( num == 2 )
+		{
+			return true;
+		}
+
+		if( num == 0 || num == 1 || num % 2 == 0 )
+		{
 			return false;
 		}
 
-		for( int i = 2; i * i <= num; i++ ){
-			if( num % i == 0 ){
+		int up_bound = (int)sqrt(num);
+		for( int i = 3; i <= up_bound; i += 2 )
+		{
+			if( num % i == 0 )
+			{
 				return false;
 			}
 		}
-
 		return true;
 	}
 
