@@ -2,60 +2,53 @@
 #include <string>
 using namespace std;
 
-class Person{
-private:
-	string name;
-	int birthday;
+class Person
+{
 public:
-	string get_name(){ return name; }
-	int get_birthday(){ return birthday; }
-	void set(string us_name, int us_birthday){
-		name = us_name;
-		birthday = us_birthday;
-	}
-	Person(string us_name, int us_birthday){
-		name = us_name;
-		birthday = us_birthday;
+	string name;
+	string birthday;
+	Person(string _name, string _birthday)
+	{
+		name = _name;
+		birthday = _birthday;
 	}
 };
 
-int is_younger(string name, int date, Person &young){
-	if( date>young.get_birthday() )
-		young.set(name, date);
-	return 1;
-}
-
-int is_older(string name, int date, Person &old){
-	if( date<old.get_birthday() )
-		old.set(name, date);
-	return 1;
-}
-
-int main(){
+int main()
+{
 	ios::sync_with_stdio(false);
 	cin.tie(0);
 
-	int us_N;
-	cin>>us_N;
+	int n;
+	cin >> n;
 
-	string us_name, us_date;
-	int int_date=0, cnt_valid=0;
-	Person youngest("n", 0), oldest("n", 25000000);
+	Person youngest("#", "1814/09/05"), oldest("#", "2014/09/07");
+	int cnt = 0;
+	for( int i = 0; i < n; i++ )
+	{
+		string name, birthday;
+		cin >> name >> birthday;
+		if( birthday >= "1814/09/06" && birthday <= "2014/09/06" )
+		{
+			Person person(name, birthday);
+			if( youngest.birthday < person.birthday )
+			{
+				youngest = person;
+			}
 
-	for(int i=0; i<us_N; i++){
-		cin>>us_name>>us_date;
-		int_date = stoi( us_date.replace(4, 1, "").replace(6, 1, "") );
-		if( int_date<=20140906 && int_date>=18140906 ){
-			is_younger(us_name, int_date, youngest);
-			is_older(us_name, int_date, oldest);
-			cnt_valid++;
+			if( oldest.birthday > person.birthday )
+			{
+				oldest = person;
+			}
+
+			cnt++;
 		}
 	}
 
-	cout<<cnt_valid;
-	if(cnt_valid)
-		cout<<' '<<oldest.get_name()<<' '<<youngest.get_name();
-
-
+	cout << cnt ;
+	if( cnt > 0 )
+	{
+		cout << ' ' << oldest.name << ' ' << youngest.name << '\n';
+	}
 	return 0;
 }
