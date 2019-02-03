@@ -1,29 +1,33 @@
 #include <iostream>
-#include <string>
 #include <cctype>
+#include <string>
 using namespace std;
 
-int main(){
+int main()
+{
 	string s1, s2;
-	cin>>s1>>s2;
+	cin >> s1 >> s2;
 
-	int i=0, j=0, len1=s1.size();
-	int broken[160]={0};
-	char ch=0;
+	int bitmap[160] = {0};
+	int len1 = s1.size();
+	int len2 = s2.size();
 
-	while( i<len1 ){
-		if( s1[i]!=s2[j] ){
-			ch = toupper(s1[i]);
-			if( broken[ch]!=1 ){
-				cout<<ch;
-				broken[ch] = 1;
-			}
-			i++;
-		}else{
-			j++;
-			i++;
+	for( auto ch : s2 )
+	{
+		ch = toupper(ch);
+		bitmap[ch]++;
+	}
+
+	for( auto ch : s1 )
+	{
+		ch = toupper(ch);
+		if( bitmap[ch] == 0 )
+		{
+			cout<<ch;
+			bitmap[ch]++;
 		}
 	}
 
+	cout<<'\n';
 	return 0;
 }
