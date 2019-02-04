@@ -3,7 +3,7 @@ https://leetcode.com/problems/linked-list-cycle-ii/description/
 给定一个链表, 其中某一部分可能是循环链表, 如
 A ---> B ---> C ---> D ---> E ---> C
 求出循环链表的起点 ( 即上面例子的 C )
-同类题目 P141, P142
+同类题目 P141, P142, P287
 
 参考思路
 https://leetcode.com/problems/linked-list-cycle-ii/discuss/44793/O(n)-solution-by-using-two-pointers-without-change-anything
@@ -34,12 +34,20 @@ A ---> B ---> C ---> D ---> E
 考虑到 (n-1)r % r = 0
 所以右边相当于还要再走 r-m
 
-所以这个等式 s = r - m 的意义就是
+也就是说,
+s =【head】 到 【循环链表起点 C 的距离】
+r - m = 【交点 D】 到 【循环链表起点 C 的距离】
+而 s == r - m, 所以两个指针再经过相同的距离就会都到达 【循环链表起点 C】, 也即两者会相遇
+
+从而, 两者相遇的地方就是 C
+
+也即
 fast = head;
 while( slow != fast ){
 	slow = slow->next;
 	fast = fast->next;
 }
+// slow and fast are now both on C
 return slow;
 
 */
