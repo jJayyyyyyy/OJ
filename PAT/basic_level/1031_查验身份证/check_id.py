@@ -4,21 +4,21 @@ weight = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2]
 match_ZM = ['1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2']
 
 all_passed = 1
-us_N = int(raw_input())
-for i in range(us_N):
-	us_id = raw_input()
+n = int( raw_input() )
+for i in range(n):
+	identity = raw_input()
 	sigma = 0
 	valid = 1
 	for j in range(17):
-		if not us_id[j].isdigit():
+		if not identity[j].isdigit():
 			valid = 0
 			break
-		sigma += weight[j] * int(us_id[j])
+		sigma += weight[j] * int(identity[j])
 	sigma = sigma % 11
-	if match_ZM[sigma] != us_id[17]:
+	if match_ZM[sigma] != identity[17]:
 		valid = 0
 	if not valid:
-		print(us_id)
+		print(identity)
 		all_passed = 0
 
 if all_passed:
