@@ -1,96 +1,140 @@
+/*
+输入一个数组, 代表一棵完全二叉树
+根据定义, 判断这棵树是否构成 最大堆/最小堆
+最后, 后序遍历输出这棵树
+*/
+
 #include <iostream>
 #include <vector>
-#include <queue>
-#include <algorithm>
 #define MAXSIZE 1004
 using namespace std;
 
-int nodeList[MAXSIZE];
+int arr[MAXSIZE] = {0};
 vector<int> ansList;
-int m, n;
 
-bool isMinHeap(int root){
-	for( int i = 1; i <= n/2; i++ ){
-		int lchild = i * 2;
-		int rchild = i * 2 + 1;
-		if( lchild <= n ){
-			if( nodeList[i] > nodeList[lchild] ){
-				return false;
+bool isMinHeap(int root, int len)
+{
+	bool res = true;
+	for( int i = root; i <= len; i++ )
+	{
+		int parent = i;
+		int left = i * 2;
+		int right = left + 1;
+		if( left <= len )
+		{
+			if( arr[parent] > arr[left] )
+			{
+				res = false;
+				break;
 			}
 		}
-		
-		if( rchild <= n ){
-			if( nodeList[i] > nodeList[rchild] ){
-				return false;
+
+		if( right <= len )
+		{
+			if( arr[parent] > arr[right] )
+			{
+				res = false;
+				break;
 			}
 		}
 	}
-	return true;
+	return res;
 }
 
-bool isMaxHeap(int root){
-	for( int i = 1; i <= n/2; i++ ){
-		int lchild = i * 2;
-		int rchild = i * 2 + 1;
-		if( lchild <= n ){
-			if( nodeList[i] < nodeList[lchild] ){
-				return false;
+bool isMaxHeap(int root, int len)
+{
+	bool res = true;
+	for( int i = root; i <= len; i++ )
+	{
+		int parent = i;
+		int left = i * 2;
+		int right = left + 1;
+		if( left <= len )
+		{
+			if( arr[parent] < arr[left] )
+			{
+				res = false;
+				break;
 			}
 		}
-		
-		if( rchild <= n ){
-			if( nodeList[i] < nodeList[rchild] ){
-				return false;
+
+		if( right <= len )
+		{
+			if( arr[parent] < arr[right] )
+			{
+				res = false;
+				break;
 			}
 		}
 	}
-	return true;
+	return res;
 }
 
-void postTrav(int root){
-	if( root <= n ){
-		postTrav(root * 2);
-		postTrav(root * 2 + 1);
-		ansList.push_back(nodeList[root]);
+void postTrav(int root, int len)
+{
+	if( root <= len )
+	{
+		int val = arr[root];
+		int left = root * 2;
+		int right = left + 1;
+		postTrav(left, len);
+		postTrav(right, len);
+		ansList.push_back(val);
 	}
 }
 
-void printAns(){
-	for( int i = 0; i < ansList.size(); i++ ){
-		if( i != 0 ){
-			cout<<' ';
+void printAns()
+{
+	bool isFirst = true;
+	int len = ansList.size();
+	for( int i = 0; i < len; i++ )
+	{
+		if( isFirst == true )
+		{
+			isFirst = false;
+			cout << ansList[i];
 		}
-		cout<<ansList[i];
+		else
+		{
+			cout << ' ' << ansList[i];
+		}
 	}
+	cout << '\n';
 	ansList.clear();
-	cout<<'\n';
 }
 
-int main(){
+int main()
+{
 	ios::sync_with_stdio(false);
 	cin.tie(0);
 
-	cin>>m>>n;
+	int m, n;
+	cin >> m >> n;
 
-	for( int i = 0; i < m; i++ ){
-		for( int j = 1; j <= n; j++ ){
-			cin>>nodeList[j];
+	int root = 1;
+	for( int i = 0; i < m; i++ )
+	{
+		for( int j = 0; j < n; j++ )
+		{
+			cin >> arr[j + 1];
 		}
-		if( nodeList[1] < nodeList[2] ){
-			if( isMinHeap(1) == true ){
-				cout<<"Min Heap\n";
-			}else{
-				cout<<"Not Heap\n";
-			}
-		}else{
-			if( isMaxHeap(1) == true ){
-				cout<<"Max Heap\n";
-			}else{
-				cout<<"Not Heap\n";
-			}
+
+		if( isMinHeap(root, n) == true )
+		{
+			cout << "Min Heap\n";
 		}
-		postTrav(1);
+		else if( isMaxHeap(root, n) == true )
+		{
+			cout << "Max Heap\n";
+		}
+		else
+		{
+			cout << "Not Heap\n";
+		}
+
+		postTrav(root, n);
 		printAns();
 	}
+
 	return 0;
 }
