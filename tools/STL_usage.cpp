@@ -56,6 +56,22 @@ void usage_queue(){
 	q.pop();
 }
 
+/*
+优先队列
+最大堆, 最小堆
+*/
+#include <functional>
+using std::greater;
+void usage_heap()
+{
+	// 最小堆
+	priority_queue<int, vector<int>, greater<int> > pq;
+	// 最大堆
+	priority_queue<int> pq;
+	
+	// push, pop, top, size()
+}
+
 void usage_stack(){
 	stack<int> s;
 	s.push(123);
