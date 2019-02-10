@@ -17,86 +17,187 @@ case 3: 输出某个 date 下, 每个 site 的总人数
 // 1. 柳神的题解, 时间换空间, 也就是先读取所有输入到vector
 //    然后, 根据不同的query, 重新进行排序
 //    耗时多(143ms), 空间少(3236KB)
-
+// 思路1 重写后的代码如下
 #include <iostream>
 #include <vector>
 #include <unordered_map>
 #include <algorithm>
+#include <string>
 using namespace std;
-struct stu {
+
+struct Student
+{
 	string id;
-	int sco;
+	int score;
+	Student(string uid, int uscore)
+	{
+		id = uid;
+		score = uscore;
+	}
 };
-struct site {
-	string siteId;
-	int cnt;
+
+struct Site
+{
+	string site_id;
+	int cnt_student;
+	Site(string id, int cnt)
+	{
+		site_id = id;
+		cnt_student = cnt;
+	}
 };
-bool cmp1(const stu &a, const stu &b) {
-	return a.sco == b.sco ? a.id < b.id : a.sco > b.sco;
+
+vector<Student> stu_list;
+
+bool cmp1(Student const & s1, Student const & s2)
+{
+	if( s1.score != s2.score )
+	{
+		return s1.score > s2.score;
+	}
+	else
+	{
+		return s1.id < s2.id;
+	}
 }
-bool cmp2(const site &a, const site &b) {
-	return a.cnt == b.cnt ? a.siteId < b.siteId : a.cnt > b.cnt;
+
+void output1(string term)
+{
+	vector<Student> ans;
+	for( Student stu : stu_list )
+	{
+		if( stu.id[0] == term[0] )
+		{
+			ans.push_back(stu);
+		}
+	}
+
+	if( ans.size() == 0 )
+	{
+		cout << "NA\n";
+	}
+	else
+	{
+		sort(ans.begin(), ans.end(), cmp1);
+		for( Student stu : ans )
+		{
+			cout << stu.id << ' ' << stu.score << '\n';
+		}
+	}
 }
-int main() {
-	int n, k;
-	cin >> n >> k;
-	vector<stu> v(n);
-	for (int i = 0; i < n; i++)
-		cin >> v[i].id >> v[i].sco;
-	for (int i = 1; i <= k; i++) {
-		int num;
-		scanf("%d", &num);
-		if (num == 1) {
-			string level;
-			cin >> level;
-			printf("Case %d: %d %s\n", i, num, level.c_str());
-			vector<stu> ans;
-			for (int i = 0; i < n; i++) {
-				if (v[i].id[0] == level[0])
-					ans.push_back(v[i]);
-			}
-			sort(ans.begin(), ans.end(),cmp1);
-			for (int i = 0; i < ans.size(); i++)
-				printf("%s %d\n", ans[i].id.c_str(), ans[i].sco);
-			if (ans.size() == 0) printf("NA\n");
-		} else if (num == 2) {
-			int cnt = 0, sum = 0;
-			int siteId;
-			cin >> siteId;
-			printf("Case %d: %d %d\n", i, num, siteId);
-			vector<stu> ans;
-			for (int i = 0; i < n; i++) {
-				if (v[i].id.substr(1, 3) == to_string(siteId)) {
-					cnt++;
-					sum += v[i].sco;
-				}
-			}
-			if (cnt != 0) printf("%d %d\n", cnt, sum);
-			else printf("NA\n");
-		} else if (num == 3) {
-			string date;
-			cin >> date;
-			printf("Case %d: %d %s\n", i, num, date.c_str());
-			vector<site> ans;
-			unordered_map<string, int> m;
-			for (int i = 0; i < n; i++) {
-				if (v[i].id.substr(4, 6) == date) {
-					string tt = v[i].id.substr(1, 3);
-					m[tt]++;
-				}
-			}
-			for (auto it : m)
-				ans.push_back({it.first, it.second});
-			sort(ans.begin(), ans.end(),cmp2);
-			for (int i = 0; i < ans.size(); i++)
-				printf("%s %d\n", ans[i].siteId.c_str(), ans[i].cnt);
-			if (ans.size() == 0) printf("NA\n");
+
+void output2(string term)
+{
+	int cnt_student = 0;
+	int sum = 0;
+
+	for( Student stu : stu_list )
+	{
+		string site_id = stu.id.substr(1, 3);
+		if( site_id == term )
+		{
+			cnt_student++;
+			sum += stu.score;
+		}
+	}
+
+	if( cnt_student == 0 )
+	{
+		cout << "NA\n";
+	}
+	else
+	{
+		cout << cnt_student << ' ' << sum << '\n';
+	}
+}
+
+bool cmp2(Site & s1, Site & s2)
+{
+	if( s1.cnt_student != s2.cnt_student )
+	{
+		return s1.cnt_student > s2.cnt_student;
+	}
+	else
+	{
+		return s1.site_id < s2.site_id;
+	}
+}
+
+void output3(string term)
+{
+	unordered_map<string, int> site_map;
+	for( Student stu : stu_list )
+	{
+		string date = stu.id.substr(4, 6);
+		if( date == term )
+		{
+			string site_id = stu.id.substr(1, 3);
+			site_map[site_id]++;
+		}
+	}
+
+	vector<Site> ans;
+	for( auto item : site_map )
+	{
+		ans.push_back(Site(item.first, item.second));
+	}
+
+	if( ans.size() == 0 )
+	{
+		cout << "NA\n";
+	}
+	else
+	{
+		sort(ans.begin(), ans.end(), cmp2);
+		for( Site site : ans )
+		{
+			cout << site.site_id << ' ' << site.cnt_student << '\n';
+		}
+	}
+}
+
+int main()
+{
+	ios::sync_with_stdio(false);
+	cin.tie(0);
+
+	int n, m;
+	cin >> n >> m;
+
+	string id;
+	int score;
+	for( int i = 0; i < n; i++ )
+	{
+		cin >> id >> score;
+		stu_list.push_back( Student(id, score) );
+	}
+
+	for( int i = 1; i <= m; i++ )
+	{
+		int type;
+		string term;
+		cin >> type >> term;
+		cout << "Case " << i << ": " << type << ' ' << term << '\n';
+		if( type == 1 )
+		{
+			output1(term);
+		}
+		else if( type == 2 )
+		{
+			output2(term);
+		}
+		else if( type == 3 )
+		{
+			output3(term);
 		}
 	}
 	return 0;
 }
 
-// 2. 我的, 我想多了, 以为会超时, 所以在输入的时候就对数据进行了分类
+
+
+
+// 2. 我的思路, 原以为思路 1 会超时, 所以在输入的时候就对数据进行了分类
 //    一次整理, 多次重用
 //    耗时少(77ms), 空间多(7416KB)
 
@@ -234,3 +335,5 @@ int main(){
 
 	return 0;
 }
+
+
