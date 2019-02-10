@@ -4,59 +4,59 @@
 #include <vector>
 using namespace std;
 
-int main(){
+/* 30 ms, 1200 KB */
+int main()
+{
 	ios::sync_with_stdio(false);
 	cin.tie(0);
 
-	int n, m, id1, id2;
-	cin>>n>>m;
-	unordered_map< int, unordered_set<int> > um;
-	for( int i = 0; i < n; i++ ){
-		cin>>id1>>id2;
-		um[id1].insert(id2);
-		um[id2].insert(id1);
+	int n, m;
+	cin >> n >> m;
+
+	int id1, id2;
+	unordered_map<int, vector<int> > incompatible_map;
+	for( int i = 0; i < n; i++ )
+	{
+		cin >> id1 >> id2;
+		incompatible_map[id1].push_back(id2);
+		incompatible_map[id2].push_back(id1);
 	}
 
-	int k, id;
-	bool ans=false;
-	for( int i = 0; i < m; i++ ){
-		cin>>k;
-		unordered_set<int> goods;
-		// vector<int> goods;
-		for( int j = 0; j < k; j++ ){
-			cin>>id;
-			// goods.push_back(id);
-			goods.insert(id);
+	for( int i = 0; i < m; i++ )
+	{
+		int k;
+		cin >> k;
+		vector<int> line;
+		for( int j = 0; j < k; j++ )
+		{
+			cin >> id1;
+			line.push_back(id1);
 		}
-		for( int id1 : goods ){
-			if( um.find(id1) != um.end() ){
-				for( int id2 : um[id1] ){
-					if( goods.find(id2) != goods.end() ){
-						ans = true;
-						break;
+
+		for( int i = 0; i < k; i++ )
+		{
+			int id1 = line[i];
+			if( incompatible_map.find(id1) != incompatible_map.end() )
+			{
+				vector<int> incompatible_vec = incompatible_map[id1];
+				// incompatible_vec == {006, 005, 003}
+				for( int j = i + 1; j < k; j++ )
+				{
+					int id2 = line[j];
+					for( int id3 : incompatible_vec )
+					{
+						if( id2 == id3 )
+						{
+							cout << "No\n";
+							goto nextloop;
+						}
 					}
 				}
 			}
 		}
-		
-		// 这样遍历会超时
-		// for( int x = 0; x < k-1; x++ ){
-		// 	for( int y = x+1; y < k ; y++ ){
-		// 		id1 = goods[x];
-		// 		id2 = goods[y];
-		// 		if( um.find(id1) != um.end() && um[id1].find(id2) != um[id1].end() ){
-		// 			ans = true;
-		// 			break;
-		// 		}
-		// 	}
-		// }
-
-		if( ans == true ){
-			cout<<"No\n";
-		}else{
-			cout<<"Yes\n";
-		}
-		ans = false;
+		cout << "Yes\n";
+	nextloop:
+		continue;
 	}
 
 	return 0;
@@ -74,7 +74,64 @@ int main(){
 5 98823 20002 20003 20006 10010
 3 12345 67890 23333
 
-
-
 */
 
+/*
+#include <iostream>
+#include <unordered_set>
+#include <unordered_map>
+#include <vector>
+using namespace std;
+
+// 50 ms, 2200 KB
+int main()
+{
+	ios::sync_with_stdio(false);
+	cin.tie(0);
+
+	int n, m;
+
+	cin >> n >> m;
+	unordered_map<int, unordered_set<int> > incompatible_map;
+	int id1, id2;
+	for( int i = 0; i < n; i++ )
+	{
+		cin >> id1 >> id2;
+		incompatible_map[id1].insert(id2);
+		incompatible_map[id2].insert(id1);
+	}
+
+	for( int i = 0; i < m; i++ )
+	{
+		unordered_set<int> line;
+		int k;
+		cin >> k;
+		for( int j = 0; j < k; j++ )
+		{
+			cin >> id1;
+			line.insert(id1);
+		}
+
+		for( int id1 : line )
+		{
+			if( incompatible_map.find(id1) != incompatible_map.end() )
+			{
+				unordered_set<int> incompatible_set = incompatible_map[id1];
+				for( int id2 : incompatible_set )
+				{
+					if( line.find(id2) != line.end() )
+					{
+						cout << "No\n";
+						goto nextloop;
+					}
+				}
+			}
+		}
+		cout << "Yes\n";
+	nextloop:
+		continue;
+	}
+
+	return 0;
+}
+*/
