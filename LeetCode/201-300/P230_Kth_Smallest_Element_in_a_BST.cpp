@@ -2,6 +2,9 @@
 https://leetcode.com/problems/kth-smallest-element-in-a-bst/description/
 找出 BST 中第 k 小的结点值
 
+同类题目
+P230, P378
+
 思路:
 中序遍历, 得到升序数组 node_list[], 返回 node_list[k - 1]
 
