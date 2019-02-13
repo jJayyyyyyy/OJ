@@ -29,11 +29,11 @@ void dfs(int ix)
 		dfs(left);
 
 		// 判断是否到达叶结点, 如果到达叶结点, 则进行输出
-		// left > n && right > n 等价于 left > n
-		// 与柳神的解法不同，柳神的解法是在叶结点的父结点开始遍历
+		// left > len && right > len 等价于 left > len
+		// 与柳神的解法稍有不同, 柳神的解法是在叶结点的父结点开始遍历
 		// 我的解法是到了叶结点才开始DRL遍历
 		// 减少了判断次数
-		// 同时，和普通的前序中序后续等遍历保持形式一致
+		// 同时, 和普通的前序中序后续等遍历保持形式一致
 		if( left > len )
 		{
 			printPath();
@@ -70,15 +70,15 @@ int main()
 
 	if( is_min_heap == true )
 	{
-		cout<<"Min Heap\n";
+		cout << "Min Heap\n";
 	}
 	else if( is_max_heap == true )
 	{
-		cout<<"Max Heap\n";
+		cout << "Max Heap\n";
 	}
 	else
 	{
-		cout<<"Not Heap\n";
+		cout << "Not Heap\n";
 	}
 
 	return 0;
