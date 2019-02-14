@@ -22,37 +22,54 @@ https://www.liuchuo.net/archives/6494
 #include <cmath>
 using namespace std;
 
-int main(){
+int main()
+{
 	ios::sync_with_stdio(false);
 	cin.tie(0);
 
-	int n;
-	cin>>n;
+	int len;
+	cin >> len;
 
-	vector<int> claim(n+1);
-	for(int i = 1; i <= n; i++ ){
-		cin>>claim[i];
+	vector<int> claim_list(len + 1);
+	for( int i = 1; i <= len; i++ )
+	{
+		cin >> claim_list[i];
 	}
 
-	for( int i = 1; i <= n; i++ ){
-		for( int j = i + 1; j <= n; j++ ){
-			vector<int> player(n+1, 1);
-			player[i] = player[j] = -1;
-			vector<int> liar;
+	for( int i = 1; i <= len; i++ )
+	{
+		for( int j = i + 1; j <= len; j++ )
+		{
+			vector<int> truth_list(len + 1, 1);
+			// assume that [i] and [j] are werewolves
+			truth_list[i] = truth_list[j] = -1;
 
-			for( int k = 1; k <= n; k++ ){
-				int p1 = claim[k];
-				int p2 = player[ abs(p1) ];
-				if( p1 * p2 < 0 ){
-					liar.push_back(k);
+			vector<int> liar_list;
+
+			// pid is player_id
+			for( int pid = 1; pid <= len; pid++ )
+			{
+				int claim = claim_list[pid];
+				int truth = truth_list[ abs(claim) ];
+				if( claim * truth < 0 )
+				{
+					// claim [1, len], > 0
+					// truth +1, -1
+					// claim * truth < 0, 说明 pid 说的话(claim)和实际情况(truth)不一致
+					// 也就是说 pid 是 liar
+					liar_list.push_back(pid);
 				}
 			}
-
-			if( liar.size() == 2 ){
-				int p1 = liar[0];
-				int p2 = liar[1];
-				if( player[p1] * player[p2] == -1 ){
-					cout<<i<<' '<<j<<'\n';
+			if( liar_list.size() == 2 )
+			{
+				int pid1 = liar_list[0];
+				int pid2 = liar_list[1];
+				int truth1 = truth_list[pid1];
+				int truth2 = truth_list[pid2];
+				if( truth1 * truth2 == -1 )
+				{
+					// (p1 == 1 && p2 == -1) || (p1 == -1 && p2 == 1)
+					cout << i << ' ' << j << '\n';
 					return 0;
 				}
 			}

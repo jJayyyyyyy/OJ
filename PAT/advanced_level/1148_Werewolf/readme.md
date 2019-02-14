@@ -2,11 +2,13 @@
 
 Werewolf（狼人杀） is a game in which the players are partitioned into two parties: the werewolves and the human beings. Suppose that in a game,
 
-	player #1 said: "Player #2 is a werewolf.";
-	player #2 said: "Player #3 is a human.";
-	player #3 said: "Player #4 is a werewolf.";
-	player #4 said: "Player #5 is a human."; and
-	player #5 said: "Player #4 is a human.".
+```
+player #1 said: "Player #2 is a werewolf.";
+player #2 said: "Player #3 is a human.";
+player #3 said: "Player #4 is a werewolf.";
+player #4 said: "Player #5 is a human."; and
+player #5 said: "Player #4 is a human.".
+```
 
 Given that there were `2 werewolves` among them, `at least one but not all the werewolves were lying`, and there were `exactly 2 liars`. Can you point out the werewolves?
 
@@ -28,62 +30,76 @@ If a solution exists, print in a line in ascending order the indices of the two 
 
 ##	Sample Input 1:
 
-	5
-	-2
-	+3
-	-4
-	+5
-	+4
+```
+5
+-2
++3
+-4
++5
++4
+```
 
 <br>
 
 ##	Sample Output 1:
 
-	1 4
+```
+1 4
+```
 
 <br>
 
 ##	Sample Input 2:
 
-	6
-	+6
-	+3
-	+1
-	-5
-	-2
-	+4
+```
+6
++6
++3
++1
+-5
+-2
++4
+```
 
 <br>
 
 ##	Sample Output 2 (the solution is not unique):
 
-	1 5
+```
+1 5
+```
 
 <br>
 
 ##	Sample Input 3:
 
-	5
-	-2
-	-3
-	-4
-	-5
-	-1
+```
+5
+-2
+-3
+-4
+-5
+-1
+```
 
 <br>
 
 ##	Sample Output 3:
 
-	No Solution
+```
+No Solution
+```
 
 <br>
 
 ##	Info
 
-	作者: CHEN, Yue
-	单位: 浙江大学
-	时间限制: 400 ms
-	内存限制: 64 MB
-	代码长度限制: 16 KB
+```
+作者: CHEN, Yue
+单位: 浙江大学
+时间限制: 400 ms
+内存限制: 64 MB
+代码长度限制: 16 KB
+```
 	
 <br>
