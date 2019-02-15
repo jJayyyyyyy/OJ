@@ -4,52 +4,57 @@
 #include <string>
 using namespace std;
 
-vector<string> raw_list;
-set<int> ans_set;
-vector<int> ans_list;
-
-void get_digit_sum(string num){
-	int len = num.size();
-	int sum = 0, digit;
-	for( int i = 0; i < len; i++ ){
-		digit = num[i] - '0';
+int get_digit_sum(string str_num)
+{
+	int len = str_num.size();
+	int sum = 0;
+	for( int i = 0; i < len; i++ )
+	{
+		int digit = str_num[i] - '0';
 		sum += digit;
 	}
-	// 4
-	ans_set.insert(sum);
+	return sum;
 }
 
 int main(){
 	ios::sync_with_stdio(false);
 	cin.tie(0);
 
-	int total;
-	string num;
+	int ttl_cnt;
+	string str_num;
 
-	// 1, 2
-	cin>>total;
-	for( int i = 0; i < total; i++ ){
-		cin>>num;
-		raw_list.push_back(num);
+	vector<string> input_list;
+
+	cin >> ttl_cnt;
+	for( int i = 0; i < ttl_cnt; i++ )
+	{
+		cin >> str_num;
+		input_list.push_back(str_num);
 	}
 
-	// 3
-	for( auto num : raw_list ){
-		get_digit_sum(num);
+	set<int> s;
+	for( auto str_num : input_list )
+	{
+		int num = get_digit_sum(str_num);
+		s.insert(num);
 	}
 
-	// 5
-	for( auto ans : ans_set ){
-		ans_list.push_back(ans);
+	int len = s.size();
+	cout << len << '\n';
+	bool is_fitst = true;
+	for( set<int>::iterator it = s.begin(); it != s.end(); it++ )
+	{
+		if( is_fitst == true )
+		{
+			cout << *it;
+			is_fitst = false;
+		}
+		else
+		{
+			cout << ' ' << *it;
+		}
 	}
 
-	// 6
-	int len = ans_list.size();
-	cout<<len<<'\n';
-	cout<<ans_list[0];
-	for( int i = 1; i < len; i++ ){
-		cout<<' '<<ans_list[i];
-	}
 	cout<<'\n';
 	return 0;
 }
