@@ -1,92 +1,76 @@
 #include <iostream>
-#include <set>
+#include <vector>
+#include <queue>
+#define MAXSIZE 104
 using namespace std;
 
-class MEMBER{
-private:
-	set<int> children;
-	int height;
-public:
-	MEMBER(){
-		height = 1;
-	}
-	int addChild(int childID){
-		children.insert(childID);
-		return 0;
-	}
-	int hasChildren(){
-		return children.size();
-	}
-	set<int> getChildren(){
-		return children;
-	}
-	int incHeight(){
-		height++;
-		return 0;
-	}
-	int getHeight(){
-		return height;
-	}
+struct Person
+{
+	int id;
+	vector<int> children;
 };
 
-MEMBER family[128];
+vector<Person> family(MAXSIZE);
 
-int updateHeight(int parentID){
-	if( 0==family[parentID].hasChildren() ){
-		return 0;
-	}else{
-		set<int> children = family[parentID].getChildren();
-		set<int>::iterator childID;
-		for( childID=children.begin(); childID!=children.end(); childID++ ){
-			family[ *childID ].incHeight();
-			updateHeight(*childID);
+void BFS()
+{
+	queue<int> q;
+	int root_id = 1;
+	q.push(root_id);
+
+	vector<int> ans;
+	while( q.size() != 0 )
+	{
+		int len = q.size();
+		int cnt_leaf = 0;
+		for( int i = 0; i < len; i++ )
+		{
+			int parent_id = q.front();
+			q.pop();
+			vector<int> children = family[parent_id].children;
+			if( children.size() == 0 )
+			{
+				cnt_leaf++;
+			}
+			else
+			{
+				for( int child_id : children )
+				{
+					q.push(child_id);
+				}
+			}
 		}
-		return 0;
+		ans.push_back(cnt_leaf);
 	}
+
+	int len = ans.size();
+	cout << ans[0];
+	for( int i = 1; i < len; i++ )
+	{
+		cout << ' ' << ans[i];
+	}
+	cout<<'\n';
 }
 
 int main(){
 	ios::sync_with_stdio(false);
 	cin.tie(0);
 
-	int totalNodes, nonLeaf;
-	cin>>totalNodes>>nonLeaf;
+	int n, m;
+	cin >> n >> m;
 
-	int parentID, cntChildren, childrenID, i, j;
-	for( i=1; i<=nonLeaf; i++ ){
-		cin>>parentID>>cntChildren;
-		for( j=0; j<cntChildren; j++ ){
-			cin>>childrenID;
-			family[parentID].addChild(childrenID);
+	int parent_id, cnt;
+	for( int i = 0; i < m; i++ )
+	{
+		cin >> parent_id >> cnt;
+		vector<int> children(cnt);
+		for( int j = 0; j < cnt ; j++ )
+		{
+			cin >> children[j];
 		}
+		family[parent_id].children = children;
 	}
-
-	for( i=1; i<=totalNodes; i++ ){
-		updateHeight(i);
-	}
-	
-
-	int leaves[128] = {0};
-	int maxGeneration = 0;
-	for( i=1; i<=totalNodes; i++ ){
-		int generation = family[i].getHeight();
-		if( 0==family[i].hasChildren() ){
-			leaves[ generation ] ++;
-		}
-		if( generation > maxGeneration ){
-			maxGeneration = generation;
-		}
-	}
-
-	int isFirst = 1;
-	for( i=1; i<=maxGeneration; i++ ){
-		if( isFirst ){
-			isFirst = 0;
-			cout<<leaves[i];
-		}else{
-			cout<<' '<<leaves[i];
-		}
-	}
+	BFS();
 
 	return 0;
 }
