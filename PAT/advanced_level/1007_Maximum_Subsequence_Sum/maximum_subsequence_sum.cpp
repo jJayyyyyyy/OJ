@@ -2,57 +2,66 @@
 #define MAXSIZE 10004
 using namespace std;
 
-int a[MAXSIZE] = {0};
-int dp[MAXSIZE] = {0};
-int startIx[MAXSIZE] = {0};
+int arr[MAXSIZE] = {0};
+int max_sum_list[MAXSIZE] = {0};
+int start_index[MAXSIZE] = {0};
 
 int main(){
 	ios::sync_with_stdio(false);
 	cin.tie(0);
 
-	int n, i;
-	bool allNegative = true;
-	
-	cin>>n;
-	for(i=0; i<n; i++){
-		cin>>a[i];
-		if( a[i] >= 0 ){
-			allNegative = false;
+	int len;
+	cin >> len;
+
+	bool all_negative = true;
+
+	for( int i = 0; i < len; i++ )
+	{
+		cin >> arr[i];
+		if( arr[i] >= 0 )
+		{
+			all_negative = false;
 		}
 	}
 
-	if( allNegative == true ){
-		cout<<"0 "<<a[0]<<' '<<a[n-1]<<'\n';
+	if( all_negative == true )
+	{
+		cout << "0 " << arr[0] << ' ' << arr[len - 1] << '\n';
 		return 0;
 	}
-
-	dp[0] = a[0];
+	max_sum_list[0] = arr[0];
 
 	// state transition equation
-	for( i=1; i<n; i++ ){
-		if(dp[i-1] + a[i] > a[i]){
-			dp[i] = dp[i-1] + a[i];
-			startIx[i] = startIx[i-1];
-		}else{
-			dp[i] = a[i];
-			startIx[i] = i;
+	for( int i = 1; i < len; i++ )
+	{
+		if( max_sum_list[i - 1] + arr[i] > arr[i] )
+		{
+			max_sum_list[i] = max_sum_list[i - 1] + arr[i];
+			start_index[i] = start_index[i - 1];
+		}
+		else
+		{
+			max_sum_list[i] = arr[i];
+			start_index[i] = i;
 		}
 	}
 
-	int maxIx = 0;
-	int maxDP = dp[maxIx];
-	for( i=1; i<n; i++ ){
-		if(dp[i] > maxDP){
-			maxDP = dp[i];
-			maxIx = i;
+	int end_index = 0;
+	int max_sum = max_sum_list[end_index];
+	for( int i = 1; i < len; i++ )
+	{
+		if( max_sum_list[i] > max_sum )
+		{
+			max_sum = max_sum_list[i];
+			end_index = i;
 		}
 	}
 
-	int beginIndex = startIx[maxIx];
-	int beginValue = a[beginIndex];
-	int endValue = a[maxIx];
-	
-	cout<<maxDP<<' '<<beginValue<<' '<<endValue<<'\n';
+	int begin_index = start_index[end_index];
+	int begin_value = arr[begin_index];
+	int end_value = arr[end_index];
+
+	cout<<max_sum<<' '<<begin_value<<' '<<end_value<<'\n';
 
 	return 0;
 }
