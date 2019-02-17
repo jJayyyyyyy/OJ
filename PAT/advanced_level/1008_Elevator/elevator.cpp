@@ -1,22 +1,35 @@
 #include <iostream>
+#include <vector>
 using namespace std;
 
-int main(){
-	int reqFloor[104]={0}, next;
-	int N, i, sigmaTime=0;
-	cin>>N;
+int main()
+{
+	ios::sync_with_stdio(false);
+	cin.tie(0);
 
-	for( i=1; i<=N; i++ )
-		cin>>reqFloor[i];
-
-	for( i=1; i<=N; i++ ){
-		next = reqFloor[i] - reqFloor[i-1];
-		if(next<0){
-			sigmaTime += -next*4 + 5;
-		}else{
-			sigmaTime += next*6 + 5;
-		}
+	int len;
+	cin >> len;
+	vector<int> req_list(len + 1);
+	req_list[0] = 0;
+	for( int i = 1; i <= len; i++ )
+	{
+		cin >> req_list[i];
 	}
 
-	cout<<sigmaTime<<'\n';
+	int sum = 0;
+	for( int i = 1; i <= len; i++ )
+	{
+		int gap = req_list[i] - req_list[i - 1];
+		if( gap > 0 )
+		{
+			sum += gap * 6 + 5;
+		}
+		else
+		{
+			sum += -gap * 4 + 5;
+		}
+	}
+	cout << sum << '\n';
+
+	return 0;
 }
