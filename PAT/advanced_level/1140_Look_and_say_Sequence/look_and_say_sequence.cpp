@@ -1,44 +1,50 @@
-// #pragma warning(disable:4996)
 #include <iostream>
 #include <string>
 #include <sstream>
 using namespace std;
 
-string num2str(int num){
+string num2str(int num)
+{
 	stringstream ss;
+	ss << num;
 	string str;
-	ss<<num;
-	ss>>str;
+	ss >> str;
 	return str;
 }
 
-string updateS(string s){
-	int len = s.size();
-	string newstr = "";
-	char ch = s[0];
-	int i = 0;
+string update_s(string str)
+{
+	int len = str.size();
+	string ans = "";
+	char ch = str[0];
 	int pos = 0;
-	for( int i = 0; i < len; i++){
-		while( s[i] == ch ){
+	for( int i = 0; i < len; i++ )
+	{
+		while( str[i] == ch )
+		{
 			i++;
 		}
-		newstr += ch;
-		newstr += num2str(i - pos);
+		ans += ch;
+		ans += num2str(i - pos);
 		pos = i;
-		ch = s[i--];
+		ch = str[i];
+		i--;
 	}
-	return newstr;
+	return ans;
 }
 
-int main(){
-	string s;
+int main()
+{
+	string str;
 	int n;
 
-	cin>>s>>n;
+	cin >> str >> n;
 
-	for( int i = 1; i < n; i++ ){
-		s = updateS(s);
+	for( int i = 1; i < n; i++ )
+	{
+		str = update_s(str);
 	}
 
-	cout<<s<<'\n';
+	cout << str << '\n';
+	return 0;
 }
