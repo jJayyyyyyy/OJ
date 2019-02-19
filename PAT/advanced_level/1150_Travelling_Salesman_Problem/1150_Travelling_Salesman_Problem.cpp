@@ -8,77 +8,102 @@
    只要路径短，重不重复没关系, 如样例中的 path 4 就有重复访问结点的情况, 但是总路径更短, 这也是可行的
 */
 
-
 #include <iostream>
 #include <algorithm>
 #include <unordered_set>
+#include <unordered_map>
 #define MAXSIZE 201
 #define INF 0x3fffffff
 using namespace std;
 
-unsigned char G[MAXSIZE][MAXSIZE] = {0};
+unsigned char graph[MAXSIZE][MAXSIZE] = {0};
 
 int main(){
 	ios::sync_with_stdio(false);
 	cin.tie(0);
 
 	int n, m;
-	cin>>n>>m;
-	for( int i = 0; i < m; i++ ){
-		int v1, v2, d;
-		cin>>v1>>v2>>d;
-		G[v1][v2] = G[v2][v1] = d;
+	cin >> n >> m;
+
+	int v1, v2, dist;
+	for( int i = 0; i < m; i++ )
+	{
+		cin >> v1 >> v2 >> dist;
+		graph[v1][v2] = graph[v2][v1] = dist;
 	}
 
-	int k;
-	int minIx = INF, minDist = INF;
-	cin>>k;
-	for( int i = 1; i <= k; i++ ){
-		int q;
-		cin>>q;
+	int ttl_path;
+	int min_path_ix = INF, min_dist = INF;
+	cin >> ttl_path;
+	for( int path_ix = 1; path_ix <= ttl_path; path_ix++ )
+	{
+		int ttl_vertex;
+		cin >> ttl_vertex;
 
-		int v1, v2, first=0, last=0;
+		int first=0, last=0;
 		int dist = 0;
-		bool noPath = false;
+		bool no_path = false;
 
-		cin>>v1;
+		cin >> v1;
 		first = v1;
 		unordered_set<int> s;
 		s.insert(v1);
-		for( int j = 1; j < q; j++ ){
-			cin>>v2;
+		for( int j = 1; j < ttl_vertex; j++ )
+		{
+			cin >> v2;
 			last = v2;
 			s.insert(v2);
-			if( G[v1][v2] != 0 ){
-				dist += G[v1][v2];
-			}else{
-				noPath = true;
+			if( graph[v1][v2] != 0 )
+			{
+				dist += graph[v1][v2];
+			}
+			else
+			{
+				no_path = true;
 			}
 			v1 = v2;
 		}
-		if( noPath == true ){
-			cout<<"Path "<<i<<": NA (Not a TS cycle)\n";
-		}else if( s.size() == n ){
-			if( q == n ){
-				cout<<"Path "<<i<<": "<<dist<<" (Not a TS cycle)\n";
-			}else if( first == last ){
-				if( q == n + 1 ){
-					cout<<"Path "<<i<<": "<<dist<<" (TS simple cycle)\n";
-				}else if( q > n + 1 ){
-					cout<<"Path "<<i<<": "<<dist<<" (TS cycle)\n";
-				}
-				if( dist < minDist ){
-					minDist = dist;
-					minIx = i;
-				}
-			}else{
-				cout<<"Path "<<i<<": "<<dist<<" (Not a TS cycle)\n";
+
+		if( no_path == true )
+		{
+			cout<<"Path "<<path_ix<<": NA (Not a TS cycle)\n";
+		}
+
+		else if( s.size() == n )
+		{
+			if( ttl_vertex == n )
+			{
+				// ttl_vertex == n + 1 才能成为一个圈
+				cout<<"Path "<<path_ix<<": "<<dist<<" (Not a TS cycle)\n";
 			}
-		}else{
-			cout<<"Path "<<i<<": "<<dist<<" (Not a TS cycle)\n";
+			else if( first == last )
+			{
+				// 起点和终点一样才能成为一个圈
+				if( ttl_vertex == n + 1 )
+				{
+					cout << "Path " << path_ix << ": " << dist << " (TS simple cycle)\n";
+				}
+				else if( ttl_vertex > n + 1 )
+				{
+					cout << "Path " << path_ix << ": " << dist << " (TS cycle)\n";
+				}
+				if( dist < min_dist )
+				{
+					min_dist = dist;
+					min_path_ix = path_ix;
+				}
+			}
+			else
+			{
+				cout << "Path " << path_ix << ": " << dist << " (Not a TS cycle)\n";
+			}
+		}
+		else
+		{
+			cout<<"Path "<<path_ix<<": "<<dist<<" (Not a TS cycle)\n";
 		}
 	}
-	cout<<"Shortest Dist("<<minIx<<") = "<<minDist<<'\n';
+	cout<<"Shortest Dist("<<min_path_ix<<") = "<<min_dist<<'\n';
 
 	return 0;
 }
