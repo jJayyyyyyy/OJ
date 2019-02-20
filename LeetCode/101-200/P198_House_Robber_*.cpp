@@ -1,7 +1,7 @@
 /*
 https://leetcode.com/problems/house-robber/description/
 动态规划(本题应该属于Medium, 只是因为有大牛给出了非常nice的Solution，所以正确率很高，被归入Easy)
-同类题目 P198
+同类题目 P198, P213
 
 参考解法1: https://leetcode.com/problems/house-robber/discuss/55693/C-1ms-O(1)space-very-simple-solution
 参考解法2: https://leetcode.com/problems/house-robber/discuss/55736/C++My-solutionDP
