@@ -25,126 +25,113 @@ https://www.liuchuo.net/archives/6496
 
 Joy大神的题解
 https://www.joyhwong.com/archives/1782
-*/
 
+结合 PAT_A_1151, PAT_A_1143 进行了改进, 得到通用模板
+
+*/
 
 #include <iostream>
 #include <algorithm>
 #include <unordered_set>
 #include <unordered_map>
-#define MAXSIZE 10001
+#define MAXSIZE 10004
 using namespace std;
-
-struct Node{
-	int val;
-	Node *lchild, *rchild;
-	Node(int v){
-		val = v;
-		lchild = rchild = NULL;
-	}
-};
 
 int pre[MAXSIZE] = {0}, in[MAXSIZE] = {0};
 
-// val2ix is a map that converts val to index in in[] sequence
-unordered_map<int, int> val2ix;
+// i = val_to_index[val] , 其中 i 是结点 val 在中序序列里的下标
+unordered_map<int, int> val_to_index;
+int iu, iv;		// iu, iv 是 u, v 在中序序列里的下标
+// iu, iv 提取为全局变量, 而不是 LCA 中重复计算, 最高可以从 316ms 降到 161ms
+// 若再把 val_to_index 换成如下数组
+// short val_to_index[1000004];
+// 则时间可以继续提升, 从 161ms 变成 27ms
 
-/*
-Node * inPreCreateTree(int inL, int inR, int preL, int preR){
-	if( preL > preR ){
-		return NULL;
+
+// 中序前序造树
+void inPreCreateTree(int inL, int inR, int preL, int preR, int u, int v)
+{
+	if( preL > preR )
+	{
+		return;
 	}
 
-	int valRoot = pre[preL];
-	Node * root = new Node(valRoot);
+	int rootval = pre[preL];
+	int iroot = val_to_index[rootval];	// iroot 是根结点 val 在中序序列里的下标
+	int numLeft = iroot - inL;		// numLeft 是左子树结点个数
 
-	int mid;
-	for( mid = inL; mid < inR; mid++ ){
-		if( in[mid] == valRoot ){
-			break;
-		}
-	}
-
-	int numLeft = mid - inL;
-	root->lchild = inPreCreateTree(inL, mid-1, preL+1, preL+numLeft);
-	root->rchild = inPreCreateTree(mid+1, inR, preL+numLeft+1, preR);
-	return root;
-}
-*/
-
-// preRoot is the index of Root in pre[] sequence, 相当于preL
-// inL is the left bound of in[] sequence
-// inR is the right bound of in[] sequence
-// inRoot is the index of Root in in[] sequence
-void LCA(int preRoot, int inL, int inR, int valU, int valV){
-	if( inL <= inR ){
-		int valRoot = pre[preRoot];
-		int inRoot = val2ix[valRoot];
-		int numLeft = inRoot - inL;
-		int inU = val2ix[valU];
-		int inV = val2ix[valV];
-
+	if( (iroot > iu && iroot < iv) || (iroot < iu && iroot > iv) )
+	{
 		// u 和 v 在 root 的两侧
-		if( inRoot > inU && inRoot < inV ){
-			cout<<"LCA of "<<valU<<" and "<<valV<<" is "<<valRoot<<".\n";
-		}else if( inRoot < inU && inRoot > inV ){
-			cout<<"LCA of "<<valU<<" and "<<valV<<" is "<<valRoot<<".\n";
-		}
-
+		cout << "LCA of " << u << " and " << v << " is " << rootval << ".\n";
+	}
+	else if( iroot == iu )
+	{
 		// u 是 LCA
-		else if( inRoot == inU ){
-			cout<<valU<<" is an ancestor of "<<valV<<".\n";
-		}
-
+		cout << u << " is an ancestor of " << v << ".\n";
+	}
+	else if( iroot == iv )
+	{
 		// v 是 LCA
-		else if( inRoot == inV ){
-			cout<<valV<<" is an ancestor of "<<valU<<".\n";
-		}
-
+		cout << v << " is an ancestor of " << u << ".\n";
+	}
+	else if( iroot > iu && iroot > iv )
+	{
 		// u 和 v 在 root 的左子树中, 去左子树找
-		else if( inRoot > inU && inRoot > inV ){
-			LCA(preRoot+1, inL, inRoot-1, valU, valV);
-		}
-
+		inPreCreateTree(inL, iroot-1, preL+1, preL+numLeft, u, v);
+	}
+	else if( iroot < iu && iroot < iv )
+	{
 		// u 和 v 在 root 的右子树中, 去右子树找
-		else if( inRoot < inU && inRoot < inV ){
-			LCA(preRoot+numLeft+1, inRoot+1, inR, valU, valV);
-		}
+		inPreCreateTree(iroot+1, inR, preL+numLeft+1, preR, u, v);
 	}
 }
-
-
 
 int main(){
 	ios::sync_with_stdio(false);
 	cin.tie(0);
 
 	int m, n;
-	cin>>m>>n;
+	cin >> m >> n;
 
 	int val;
 	unordered_set<int> s;
-	for( int i = 1; i <= n; i++ ){
-		cin>>val;
+	for( int i = 0; i < n; i++ )
+	{
+		cin >> val;
 		s.insert(val);
 		in[i] = val;
-		val2ix[val] = i;
+		val_to_index[val] = i;
 	}
-	for( int i = 1; i <= n; i++ ){
-		cin>>pre[i];
+
+	for( int i = 0; i < n; i++ )
+	{
+		cin >> pre[i];
 	}
 
 	int u, v;
-	for( int i = 0; i < m; i++ ){
-		cin>>u>>v;
-		if( s.find(u) == s.end() && s.find(v) == s.end() ){
-			cout<<"ERROR: "<<u<<" and "<<v<<" are not found.\n";
-		}else if( s.find(u) == s.end() ){
-			cout<<"ERROR: "<<u<<" is not found.\n";
-		}else if( s.find(v) == s.end() ){
-			cout<<"ERROR: "<<v<<" is not found.\n";
-		}else{
-			LCA(1, 1, n, u, v);
+	for( int i = 0; i < m; i++ )
+	{
+		cin >> u >> v;
+		unordered_set<int>::iterator findu = s.find(u);
+		unordered_set<int>::iterator findv = s.find(v);
+		if( findu == s.end() && findv == s.end() )
+		{
+			cout << "ERROR: " << u << " and " << v << " are not found.\n";
+		}
+		else if( findu == s.end() )
+		{
+			cout << "ERROR: " << u << " is not found.\n";
+		}
+		else if( findv == s.end() )
+		{
+			cout << "ERROR: " << v << " is not found.\n";
+		}
+		else
+		{
+			iu = val_to_index[u];		// iu 是 u 在中序序列里的下标
+			iv = val_to_index[v];		// iv 是 v 在中序序列里的下标
+			inPreCreateTree(0, n - 1, 0, n - 1, u, v);
 		}
 	}
 
