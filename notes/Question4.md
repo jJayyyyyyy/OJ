@@ -470,6 +470,118 @@
 
 	<br>
 
+##	LCA
+
+*	模板
+
+	```cpp
+	#include <iostream>
+	#define MAXSIZE 10004
+	using namespace std;
+
+	// i = val_to_index[val] , 其中 i 是结点 val 在中序序列里的下标
+	// 如果出现段错误则逐步增加数组容量
+	int val_to_index[MAXSIZE] = {0};
+	// s 用于判断某结点是否在树中
+	bool s[MAXSIZE] = {false};
+	int in[MAXSIZE], pre[MAXSIZE];
+	// iu, iv 是 u, v 在中序序列里的下标
+	int iu, iv;
+
+	void in_pre_create_tree(int inL, int inR, int preL, int preR, int u, int v)
+	{
+		if( preL > preR )
+		{
+			return;
+		}
+
+		int rootval = pre[preL];			// 根结点的值
+		int iroot = val_to_index[rootval];	// 根结点的下标
+		int numLeft = iroot - inL;			// 左子树结点总数
+
+		if( (iroot > iu && iroot < iv) || (iroot < iu && iroot > iv) )
+		{
+			// u 和 v 在 root 的两侧
+			cout << "LCA of " << u << " and " << v << " is " << rootval << ".\n";
+		}
+		else if( iroot == iu )
+		{
+			// u 是 LCA
+			cout << u << " is an ancestor of " << v << ".\n";
+		}
+		else if( iroot == iv )
+		{
+			// v 是 LCA
+			cout << v << " is an ancestor of " << u << ".\n";
+		}
+		else if( iroot > iu && iroot > iv )
+		{
+			// u 和 v 在 root 的左子树中, 去左子树找
+			in_pre_create_tree(inL, iroot - 1, preL + 1, preL + numLeft, u, v);
+		}
+		else if( iroot < iu && iroot < iv )
+		{
+			// u 和 v 在 root 的右子树中, 去右子树找
+			in_pre_create_tree(iroot + 1, inR, preL + numLeft + 1, preR, u, v);
+		}
+	}
+
+	int main()
+	{
+		ios::sync_with_stdio(false);
+		cin.tie(0);
+
+		int m, n;
+		cin >> m >> n;
+
+		int val;
+		for( int i = 0; i < n; i++ )
+		{
+			cin >> val;
+			in[i] = val;
+			val_to_index[val] = i;
+			s[val] = true;
+		}
+
+		for( int i = 0; i < n; i++ )
+		{
+			cin >> pre[i];
+		}
+
+		int u, v;
+		for( int i = 0; i < m; i++ )
+		{
+			cin >> u >> v;
+			bool findu = s[u];
+			bool findv = s[v];
+			if( findu == false && findv == false )
+			{
+				cout << "ERROR: " << u << " and " << v << " are not found.\n";
+			}
+			else if( findu == false )
+			{
+				cout << "ERROR: " << u << " is not found.\n";
+			}
+			else if( findv == false )
+			{
+				cout << "ERROR: " << v << " is not found.\n";
+			}
+			else
+			{
+				iu = val_to_index[u];		// iu 是 u 在中序序列里的下标
+				iv = val_to_index[v];		// iv 是 v 在中序序列里的下标
+				in_pre_create_tree(0, n - 1, 0, n - 1, u, v);
+			}
+		}
+
+		return 0;
+	}
+	```
+
+*	例题: [PAT_A_1143](https://github.com/jJayyyyyyy/OJ/tree/master/PAT/advanced_level/1143_Lowest_Common_Ancestor), [PAT_A_1151](https://github.com/jJayyyyyyy/OJ/blob/master/PAT/advanced_level/1151_LCA_in_a_Binary_Tree/1151_LCA_in_a_Binary_Tree.cpp), [LeetCode, P235_Lowest_Common_Ancestor_of_a_BST](https://github.com/jJayyyyyyy/OJ/blob/master/LeetCode/201-300/P235_Lowest_Common_Ancestor_of_a_BST.cpp)
+
+	<br>
+
 ##	注意
 
 *	不要把所有逻辑都混在在输入输出上
