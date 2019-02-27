@@ -1,94 +1,129 @@
 #include <iostream>
-#define MAX 32
+#include <vector>
+#define MAXSIZE 32
 using namespace std;
 
-int preOrder[MAX] = {0};
-int postOrder[MAX] = {0};
-int inOrder[MAX] = {0};
-int ixInOrder = 0;
-int unique = 1;
+int pre[MAXSIZE] = {0};
+int post[MAXSIZE] = {0};
+bool unique = true;
+vector<int> ans_list;
 
-int findRightRoot(const int vRightRoot, const int preLeft, const int preRight){
+struct Node
+{
+	int val;
+	Node * left, * right;
+	Node(int v)
+	{
+		val = v;
+		left = right = NULL;
+	}
+};
+
+int find_index_of_pretrav_right_child(int valright, int preL, int preR){
 	// val is root of right child
-	for( int ix=preLeft; ix<=preRight; ix++ ){
-		if( vRightRoot == preOrder[ix] ){
-			return ix;
+	for( int i = preL; i <= preR; i++ )
+	{
+		if( pre[i] == valright )
+		{
+			return i;
 		}
 	}
 
-	return 0;	// right root not found, 
+	// right root not found
+	return -1;
 }
 
-int setIn(int preLeft, int preRight, int postLeft, int postRight){
-	if( preLeft == preRight){
-		inOrder[ixInOrder++] = preOrder[preLeft];
-		return 0;
+Node * pre_post(int preL, int preR, int postL, int postR)
+{
+	if( preL > preR )
+	{
+		return NULL;
 	}
 
-	if( preOrder[preLeft] == postOrder[postRight] ){// get root
-		int vRightRoot = postOrder[postRight - 1];
-		int ixLeftRoot = preLeft + 1;
-		int ixRightRoot = findRightRoot(vRightRoot, preLeft+1, preRight);
-		
-		int preLeftLeft = preLeft + 1;
-		int preLeftRight = ixRightRoot - 1;
-		int preRightLeft = ixRightRoot;
-		int preRightRight = preRight;
+	// find root
+	if( pre[preL] == post[postR] )
+	{
+		int rootval = pre[preL];
+		Node * root = new Node(rootval);
 
-		int cntLeftTree = preLeftRight - preLeftLeft + 1;
-
-		int postLeftLeft = postLeft;
-		int postLeftRight = postLeft + cntLeftTree - 1;
-		int postRightLeft = postLeft + cntLeftTree;
-		int postRightRight = postRight - 1;
-
-		if( ixRightRoot > ixLeftRoot ){
-			// suppose the left tree is equal
-
-			// LDR, inOrder
-			setIn( preLeftLeft, preLeftRight, postLeftLeft, postLeftRight );
-			inOrder[ixInOrder++] = preOrder[preLeft];
-			setIn( preRightLeft, preRightRight, postRightLeft, postRightRight );
-		}else{
-			// ixRightRoot == ixLeftRoot
-			// means the left tree is empty
-			// yet it's guaranteed there is a tree
-			// so the node is on the right tree
-			// and the tree is not unique
-			unique = 0;
-			
-			// the first setIn() does nothing, for the left tree is empty
-			setIn( preLeftLeft, preLeftRight, postLeftLeft, postLeftRight );
-			
-			inOrder[ixInOrder++] = preOrder[preLeft];
-			setIn( preRightLeft, preRightRight, postRightLeft, postRightRight );
+		if( postR == 0 )
+		{
+			return root;
 		}
+		int valright = post[postR - 1];
+		int iright = find_index_of_pretrav_right_child(valright, preL, preR);
+		int ileft = preL + 1;
+
+		if( iright == -1 )
+		{
+			return root;
+		}
+
+		// 一个结点可能是根的左孩子也有可能是根的右孩子, 则不唯一
+		if( iright <= ileft )
+		{
+			unique = false;
+		}
+
+		int numLeft = iright - ileft;
+		root->left  = pre_post(preL + 1, preL + numLeft, postL, postL + numLeft - 1);
+		root->right = pre_post(preL + numLeft + 1, preR, postL + numLeft, postR - 1);
+		return root;
 	}
-	return 0;
+	else
+	{
+		return NULL;
+	}
+}
+
+void in_trav(Node * root)
+{
+	if( root != NULL )
+	{
+		in_trav(root->left);
+		ans_list.push_back(root->val);
+		in_trav(root->right);
+	}
 }
 
 int main() {
-	int n, i;
+	int n;
 	cin>>n;
-	for (i=0; i<n; i++) {
-		cin>>preOrder[i];
+	for( int i = 0; i < n; i++ )
+	{
+		cin >> pre[i];
 	}
 
-	for (i=0; i<n; i++) {
-		cin>>postOrder[i];
+	for ( int i = 0; i < n; i++ )
+	{
+		cin >> post[i];
 	}
 
-	setIn(0, n-1, 0, n-1);
-	if( unique ){
-		cout<<"Yes\n";
-	}else{
-		cout<<"No\n";
+	Node * root = pre_post(0, n-1, 0, n-1);
+	if( unique == true )
+	{
+		cout << "Yes\n";
 	}
-	
-	cout<<inOrder[0];
-	for (i=1; i<n; i++) {
-		cout<<' '<<inOrder[i];
+	else
+	{
+		cout <<"No\n";
 	}
-	cout<<'\n';
+	in_trav(root);
+	// print_in_trav();
+	bool is_first = true;
+	for( int val : ans_list )
+	{
+		if( is_first == true )
+		{
+			cout << val;
+			is_first = false;
+		}
+		else
+		{
+			cout << ' ' << val;
+		}
+	}
+	cout << '\n';
+
 	return 0;
 }
