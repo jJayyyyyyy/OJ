@@ -4,27 +4,27 @@
 using namespace std;
 
 vector<int> path;
-int a[MAXSIZE];
+int tree[MAXSIZE];
 int len;
 
-void printPath()
+void print_path()
 {
-	int path_len = path.size();
+	int size = path.size();
 	cout << path[0];
-	for( int i = 1; i < path_len; i++ )
+	for( int i = 1; i < size; i++ )
 	{
 		cout << ' ' << path[i];
 	}
 	cout << '\n';
 }
 
-void dfs(int ix)
+void dfs(int root)
 {
-	int left = ix * 2, right = ix * 2 + 1;
-
-	if( ix <= len )
+	if( root <= len )
 	{
-		path.push_back(a[ix]);
+		int left = root * 2;
+		int right = left + 1;
+		path.push_back(tree[root]);
 		dfs(right);
 		dfs(left);
 
@@ -34,12 +34,38 @@ void dfs(int ix)
 		// 我的解法是到了叶结点才开始DRL遍历
 		// 减少了判断次数
 		// 同时, 和普通的前序中序后续等遍历保持形式一致
-		if( left > len )
+		if( left > len && right > len )
 		{
-			printPath();
+			print_path();
 		}
 		path.pop_back();
 	}
+}
+
+bool is_min_heap()
+{
+	for( int child = 2; child <= len; child++ )
+	{
+		int parent = child / 2;
+		if( tree[child] < tree[parent] )
+		{
+			return false;
+		}
+	}
+	return true;
+}
+
+bool is_max_heap()
+{
+	for( int child = 2; child <= len; child++ )
+	{
+		int parent = child / 2;
+		if( tree[child] > tree[parent] )
+		{
+			return false;
+		}
+	}
+	return true;
 }
 
 int main()
@@ -50,29 +76,17 @@ int main()
 	cin >> len;
 	for( int i = 1; i <= len; i++ )
 	{
-		cin >> a[i];
-	}
-	dfs(1);
-	bool is_min_heap = true, is_max_heap = true;
-	for( int i = 2; i <= len; i++ )
-	{
-		int parent = i / 2;
-		int child = i;
-		if( a[parent] > a[child] )
-		{
-			is_min_heap = false;
-		}
-		if( a[parent] < a[child] )
-		{
-			is_max_heap = false;
-		}
+		cin >> tree[i];
 	}
 
-	if( is_min_heap == true )
+	int root = 1;
+	dfs(root);
+
+	if( is_min_heap() )
 	{
 		cout << "Min Heap\n";
 	}
-	else if( is_max_heap == true )
+	else if( is_max_heap() )
 	{
 		cout << "Max Heap\n";
 	}
@@ -80,6 +94,5 @@ int main()
 	{
 		cout << "Not Heap\n";
 	}
-
 	return 0;
 }
