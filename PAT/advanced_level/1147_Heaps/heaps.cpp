@@ -9,98 +9,60 @@
 #define MAXSIZE 1004
 using namespace std;
 
-int arr[MAXSIZE] = {0};
-vector<int> ansList;
+int tree_size;
+int tree[MAXSIZE];
+vector<int> ans_list;
 
-bool isMinHeap(int root, int len)
+void post_trav(int root)
 {
-	bool res = true;
-	for( int i = root; i <= len; i++ )
+	if( root <= tree_size )
 	{
-		int parent = i;
-		int left = i * 2;
-		int right = left + 1;
-		if( left <= len )
-		{
-			if( arr[parent] > arr[left] )
-			{
-				res = false;
-				break;
-			}
-		}
-
-		if( right <= len )
-		{
-			if( arr[parent] > arr[right] )
-			{
-				res = false;
-				break;
-			}
-		}
-	}
-	return res;
-}
-
-bool isMaxHeap(int root, int len)
-{
-	bool res = true;
-	for( int i = root; i <= len; i++ )
-	{
-		int parent = i;
-		int left = i * 2;
-		int right = left + 1;
-		if( left <= len )
-		{
-			if( arr[parent] < arr[left] )
-			{
-				res = false;
-				break;
-			}
-		}
-
-		if( right <= len )
-		{
-			if( arr[parent] < arr[right] )
-			{
-				res = false;
-				break;
-			}
-		}
-	}
-	return res;
-}
-
-void postTrav(int root, int len)
-{
-	if( root <= len )
-	{
-		int val = arr[root];
 		int left = root * 2;
 		int right = left + 1;
-		postTrav(left, len);
-		postTrav(right, len);
-		ansList.push_back(val);
+		post_trav(left);
+		post_trav(right);
+		ans_list.push_back(tree[root]);
 	}
 }
 
-void printAns()
+void print_node_list()
 {
-	bool isFirst = true;
-	int len = ansList.size();
-	for( int i = 0; i < len; i++ )
+	cout << ans_list[0];
+	int size = ans_list.size();
+	for( int i = 1; i < size; i++ )
 	{
-		if( isFirst == true )
-		{
-			isFirst = false;
-			cout << ansList[i];
-		}
-		else
-		{
-			cout << ' ' << ansList[i];
-		}
+		cout << ' ' << ans_list[i];
 	}
 	cout << '\n';
-	ansList.clear();
+	ans_list.clear();
+}
+
+bool is_min_heap()
+{
+	for( int i = 2; i <= tree_size; i++ )
+	{
+		int child = i;
+		int parent = child / 2;
+		if( tree[parent] > tree[child] )
+		{
+			return false;
+		}
+	}
+	return true;
+}
+
+bool is_max_heap()
+{
+	for( int i = 2; i <= tree_size; i++ )
+	{
+		int child = i;
+		int parent = child / 2;
+		if( tree[parent] < tree[child] )
+		{
+			return false;
+		}
+	}
+	return true;
 }
 
 int main()
@@ -108,22 +70,20 @@ int main()
 	ios::sync_with_stdio(false);
 	cin.tie(0);
 
-	int m, n;
-	cin >> m >> n;
-
-	int root = 1;
-	for( int i = 0; i < m; i++ )
+	int m, len;
+	cin >> m >> len;
+	tree_size = len;
+	for( int q = 0; q < m; q++ )
 	{
-		for( int j = 0; j < n; j++ )
+		for( int i = 1; i <= len; i++ )
 		{
-			cin >> arr[j + 1];
+			cin >> tree[i];
 		}
-
-		if( isMinHeap(root, n) == true )
+		if( is_min_heap() )
 		{
 			cout << "Min Heap\n";
 		}
-		else if( isMaxHeap(root, n) == true )
+		else if( is_max_heap() )
 		{
 			cout << "Max Heap\n";
 		}
@@ -131,9 +91,9 @@ int main()
 		{
 			cout << "Not Heap\n";
 		}
-
-		postTrav(root, n);
-		printAns();
+		// root == 1;
+		post_trav(1);
+		print_node_list();
 	}
 
 	return 0;
