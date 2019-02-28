@@ -16,7 +16,7 @@
 	}
 	```
 
-*	in_pre, 中序 + 前序 造树, , PAT_A_1086
+*	in_pre, 中序 + 前序 造树, PAT_A_1086
 
 	```cpp
 	Node * in_pre(int inL, int inR, int preL, int preR)
@@ -80,7 +80,7 @@
 
 	参考试题: [浙大机试模拟赛-1005](https://logn.me/problem/1005)
 
-	[题解: https://github.com/jJayyyyyyy/OJ/tree/master/%E6%B5%99%E5%A4%A7%E6%9C%BA%E8%AF%95%E6%A8%A1%E6%8B%9F%E8%B5%9B/1005](https://github.com/jJayyyyyyy/OJ/tree/master/%E6%B5%99%E5%A4%A7%E6%9C%BA%E8%AF%95%E6%A8%A1%E6%8B%9F%E8%B5%9B/1005)
+	[题解: https://github.com/jJayyyyyyy/OJ/tree/master/浙大机试模拟赛/1005](https://github.com/jJayyyyyyy/OJ/tree/master/浙大机试模拟赛/1005)
 
 	```cpp
 	// i = val_to_index[val] , 其中 i 是结点 val 在中序序列里的下标
@@ -229,7 +229,7 @@
 
 *   边的遍历, PAT_A_1134
 
-	```
+	```cpp
 	vector<int> edge_of_vertex[MAXSIZE];
 	bool visited_edge[MAXSIZE];
 
