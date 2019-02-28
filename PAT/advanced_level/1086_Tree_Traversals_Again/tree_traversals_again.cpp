@@ -3,73 +3,84 @@
 #define MAXSIZE 32
 using namespace std;
 
-struct Node{
-	int val=0;
-	Node *lchild=NULL, *rchild=NULL;
-	Node(int _val){
-		val = _val;
+struct Node
+{
+	int val = 0;
+	Node *lchild, *rchild;
+	Node(int v)
+	{
+		val = v;
+		lchild = rchild = NULL;
 	}
 };
 
 int pre[MAXSIZE], in[MAXSIZE];
-int isFirst = 1;
+bool is_first = true;
+int val_to_index[MAXSIZE] = {0};
 
 // 1086, 先序+中序，造树
-Node * preInCreate(int preL, int preR, int inL, int inR){
-	if( preL > preR ){
+Node * in_pre(int preL, int preR, int inL, int inR)
+{
+	if( preL > preR )
+	{
 		return NULL;
 	}
-	int val = pre[preL];
-	Node * root = new Node(val);
+	int valroot = pre[preL];
+	Node * root = new Node(valroot);
+	int iroot = val_to_index[valroot];
 
-	int mid;
-	for( mid = inL; mid <= inR; ++mid ){
-		if( in[mid] == val ){
-			break;
-		}
-	}
-	int numLeft = mid - inL;
-	root->lchild = preInCreate(preL+1, preL+numLeft, inL, mid-1);
-	root->rchild = preInCreate(preL+numLeft+1, preR, mid+1, inR);
+	int numLeft = iroot - inL;
+	root->lchild = in_pre(preL + 1, preL + numLeft, inL, iroot - 1);
+	root->rchild = in_pre(preL + numLeft + 1, preR, iroot + 1, inR);
 	return root;
 }
 
-void disp(Node * p){
-	if( isFirst ){
-		isFirst = 0;
-		cout<<p->val;
-	}else{
-		cout<<' '<<p->val;
+void post_trav(Node * root)
+{
+	if( root != NULL )
+	{
+		post_trav(root->lchild);
+		post_trav(root->rchild);
+		if( is_first == true )
+		{
+			is_first = false;
+			cout << root->val;
+		}
+		else
+		{
+			cout << ' ' << root->val;
+		}
 	}
 }
 
-void postTraverse(Node * root){
-	if( root != NULL ){
-		postTraverse(root->lchild);
-		postTraverse(root->rchild);
-		disp(root);
-	}
-}
-
-int main(){
-	stack<int> st;
+int main()
+{
+	int n;
+	cin >> n;
+	int len = n * 2;
+	stack<int> stk;
 	string s;
-	int n, i, j=0, k=0, len, val;
-	cin>>n;
-	len = n * 2;
-	for( i=0; i<len; i++ ){
-		cin>>s;
-		if( "Push" == s ){
-			cin>>val;
+	int j = 0, k = 0, val = 0;
+	for( int i = 0; i < len; i++ ){
+		cin >> s;
+		if( "Push" == s )
+		{
+			cin >> val;
 			pre[j++] = val;
-			st.push(val);
-		}else{
-			in[k++] = st.top();
-			st.pop();
+			stk.push(val);
+		}
+		else
+		{
+			val = stk.top();
+			in[k] = val;
+			val_to_index[val] = k;
+			k++;
+			stk.pop();
 		}
 	}
 	Node * root = NULL;
-	root = preInCreate(0, n-1, 0, n-1);
-	postTraverse(root);
+	root = in_pre(0, n - 1, 0, n - 1);
+	post_trav(root);
+	cout << '\n';
 	return 0;
 }

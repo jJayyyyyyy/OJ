@@ -1,75 +1,95 @@
+/*
+1020, 后序 + 中序, 造树
+1086, 前序 + 中序, 造树
+*/
 #include <iostream>
 #include <queue>
 #define MAXSIZE 32
 using namespace std;
 
-struct Node{
-	int val=0;
-	Node *lchild=NULL, *rchild=NULL;
-	Node(int _val){
-		val = _val;
+struct Node
+{
+	int val;
+	Node *lchild, *rchild;
+	Node( int v )
+	{
+		val = v;
+		lchild = rchild = NULL;
 	}
 };
 
-int in[MAXSIZE], post[MAXSIZE];
-int isFirst = 1;
+int val_to_index[MAXSIZE] = {0};
+int in[MAXSIZE], post[MAXSIZE], pre[MAXSIZE];
 
-// 1020, 后序+中序，造树
-Node * postInCreate(int postL, int postR, int inL, int inR){
-	if( postL > postR ){
+Node * in_post(int inL, int inR, int postL, int postR)
+{
+	if( postL > postR )
+	{
 		return NULL;
 	}
-	int val = post[postR];
-	Node * root = new Node(val);
 
-	int mid;
-	for( mid = inL; mid <= inR; ++mid ){
-		if( in[mid] == val ){
-			break;
-		}
-	}
-	int numLeft = mid - inL;
-	root->lchild = postInCreate(postL, postL+numLeft-1, inL, mid-1);
-	root->rchild = postInCreate(postL+numLeft, postR-1, mid+1, inR);
+	int rootval = post[postR];
+	Node * root = new Node(rootval);
+
+	int iroot = val_to_index[rootval];
+	int numLeft = iroot - inL;
+
+	root->lchild = in_post(inL, iroot - 1, postL, postL + numLeft - 1);
+	root->rchild = in_post(iroot + 1, inR, postL + numLeft, postR - 1);
 	return root;
 }
 
-void disp(Node * p){
-	if( isFirst ){
-		isFirst = 0;
-		cout<<p->val;
-	}else{
-		cout<<' '<<p->val;
-	}
-}
-
-void levelTrav(Node * root){
+void level_trav(Node * root)
+{
 	queue<Node *> q;
 	q.push(root);
-	while( q.size() > 0 ){
-		Node * node = q.front();
+	bool is_first = true;
+
+	while( q.size() != 0 )
+	{
+		Node * parent = q.front();
 		q.pop();
-		disp(node);
-		if( node->lchild != NULL ){
-			q.push(node->lchild);
+		if( is_first == true )
+		{
+			cout << parent->val;
+			is_first = false;
 		}
-		if( node->rchild != NULL ){
-			q.push(node->rchild);
+		else
+		{
+			cout << ' ' << parent->val;
+		}
+		if( parent->lchild != NULL )
+		{
+			q.push(parent->lchild);
+		}
+		if( parent->rchild != NULL )
+		{
+			q.push(parent->rchild);
 		}
 	}
+	cout << '\n';
 }
 
-int main(){
-	int n, i;
-	cin>>n;
-	for( i = 0; i < n; ++i ){
-		cin>>post[i];
+int main()
+{
+	ios::sync_with_stdio(false);
+	cin.tie(0);
+
+	int n;
+	cin >> n;
+	for( int i = 0; i < n; i++ )
+	{
+		cin >> post[i];
 	}
-	for( i = 0; i < n; ++i ){
-		cin>>in[i];
+	int val;
+	for( int i = 0; i < n; i++ )
+	{
+		cin >> val;
+		in[i] = val;
+		val_to_index[val] = i;
 	}
-	Node * root = NULL;
-	root = postInCreate(0, n-1, 0, n-1);
-	levelTrav(root);
+	Node * root = in_post(0, n - 1, 0, n - 1);
+	level_trav(root);
+
 	return 0;
 }
