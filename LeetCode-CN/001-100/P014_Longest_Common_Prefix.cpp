@@ -1,5 +1,6 @@
 /*
 https://leetcode.com/problems/longest-common-prefix/description/
+https://leetcode-cn.com/classic/problems/longest-common-prefix/description/
 给定一个数组, 元素都是字符串
 找出最长的公共前缀, 若为空则返回""
 */
