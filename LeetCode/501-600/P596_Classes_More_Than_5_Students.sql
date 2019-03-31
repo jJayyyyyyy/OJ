@@ -16,5 +16,13 @@
 # 参考链接
 # https://leetcode.com/problems/classes-more-than-5-students/solution/
 # https://www.w3schools.com/sql/sql_count_avg_sum.asp
+# 同类题目: P182
 
-select class from (select class, count(distinct student) as cnt_stu from courses group by class) as temp_table where cnt_stu >= 5;
+select class from
+(
+    select class, count(distinct student) as cnt_stu from courses group by class
+)
+as
+    newtable
+where
+    cnt_stu >= 5;
