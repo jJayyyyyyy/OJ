@@ -1,20 +1,20 @@
 /*
- * https://leetcode.com/problems/reverse-linked-list/description/
- * 逆转链表
- * 同类题目 P206
- * 
- * 本题采用【头插法】 逆转链表, 也可以用 【栈】 或者其他解法
+https://leetcode.com/problems/reverse-linked-list/description/
+逆转链表
+同类题目 P206
+
+本题采用【头插法】 逆转链表, 你也可以用 【栈】 或者其他方法来逆转链表
 */
 
-// #include <iostream>
-// using namespace std;
+#include <iostream>
+using namespace std;
 
 // io加速
-// static const auto io_speed_up = []() {
-// 	std::ios::sync_with_stdio(false);
-// 	cin.tie(0);
-// 	return 0;
-// } ();
+static const auto io_speed_up = []() {
+	std::ios::sync_with_stdio(false);
+	cin.tie(0);
+	return 0;
+} ();
 
 struct ListNode {
 	int val;
@@ -25,21 +25,17 @@ struct ListNode {
 class Solution {
 public:
 	ListNode* reverseList(ListNode* head) {
-		if( head == NULL || head->next == NULL ){
+		if( head == NULL ){
 			return head;
 		}
-
 		ListNode * p = head->next;
-		ListNode * q = head;
-		ListNode * r;
-		while( p != NULL ) {
-			r = p->next;
-			p->next = q;
-			q = p;
-			p = r;
-		}
 		head->next = NULL;
-		head = q;
+		while( p != NULL ){
+			ListNode * tmp = p->next;
+			p->next = head;
+			head = p;
+			p = tmp;
+		}
 		return head;
 	}
 };
