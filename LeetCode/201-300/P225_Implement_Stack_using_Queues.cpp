@@ -3,7 +3,7 @@ https://leetcode.com/problems/implement-stack-using-queues/description/
 用 队列 实现 栈
 
 同类题目
-P225
+P225, P232
 
 参考思路
 */
