@@ -1,4 +1,4 @@
-##  注意！（20180803更新）
+##	注意！（20180803更新）
 
 *	PAT从旧平台搬迁到pintia后，有很多莫名其妙的问题(比如PAT_A_1055等题目无法通过)，然后有些题目提问和条件也改了(如PAT_A_1029)
 
@@ -8,7 +8,7 @@
 
 ------
 
-##  原来的readme
+##	原来的readme
 
 *	OJ做题记录, 包括PAT, LeetCode等题库.
 
@@ -16,7 +16,7 @@
 
 <br><br>
 
-##  经典题型
+##	经典题型
 
 *	最大连续子列和
 
@@ -25,7 +25,11 @@
 *	KMP 字符串匹配
 
 	[LeetCode, P028_Implement_strStr()](https://github.com/jJayyyyyyy/OJ/blob/master/LeetCode/001-100/P028_Implement_strStr().cpp)
-	
+
+*	LCS, Longest Common Substring
+
+	[lcs.cpp](https://github.com/jJayyyyyyy/OJ/blob/master/LeetCode/lcs.cpp)
+
 *	大整数运算
 
 	[LeetCode, P415_Add_Strings](https://github.com/jJayyyyyyy/OJ/blob/master/LeetCode/401-500/P415_Add_Strings.cpp)
