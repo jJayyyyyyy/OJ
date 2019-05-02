@@ -1,12 +1,12 @@
 /*
- * https://leetcode.com/problems/reverse-integer/description/
- * 给定一个整数，倒序输出。若超出32位有符号整数的范围，则返回0
+https://leetcode.com/problems/reverse-integer/description/
+给定一个整数，倒序输出。若超出32位有符号整数的范围，则返回0
+
 */
-/*
+
 #include <iostream>
 #include <string>
 #include <algorithm>
-*/
 
 class Solution {
 public:
