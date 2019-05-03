@@ -1,6 +1,7 @@
 /*
-https://leetcode-cn.com/classic/problems/two-sum/description/
-在遍历的过程中, 查找另一个数是否出现过
+https://leetcode.com/problems/palindrome-number/description/
+给定一个整数, 判断它是不是回文数
+先转为字符串, 然后对其reverse, 最后判断内容是否相同
 
 */
 
