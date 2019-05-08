@@ -1,7 +1,7 @@
 /*
 https://leetcode.com/problems/permutations/description/
 求全排列
-同类题目 P078, P090, P046
+同类题目 P078, P090, P046, P031, 20190508华为机考
 
 参考思路:
 找出 f(n-1) 和 f(n) 之间的关系
@@ -57,6 +57,23 @@ public:
 		return ans;
 	}
 };
+
+
+// 使用 STL 的 next_permutation
+// 首先对 nums 排序, 然后 do-while 调用 next_permutation()
+class Solution2{
+public:
+	vector<vector<int>> permute(vector<int> & nums) {
+		vector<vector<int>> anslist;
+		sort(nums.begin(), nums.end());
+		do{
+			anslist.push_back(nums);
+		}while(next_permutation(nums.begin(), nums.end()));
+
+		return anslist;
+	}
+};
+
 
 int main() {
 	vector<int> nums(3);
