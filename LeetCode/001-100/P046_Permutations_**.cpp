@@ -109,7 +109,7 @@ https://www.cnblogs.com/eudiwffe/p/6260699.html
 bool next_permutation(int *begin, int *end){
 	int *i = begin, *j, *k;
 	if( i == end || ++i == end ){
-		return 0;
+		return false;
 	}
 	for( i = end - 1; i != begin; ){
 		j = i;
