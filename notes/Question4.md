@@ -586,6 +586,25 @@
 
 	[LeetCode, P236_Lowest_Common_Ancestor_of_a_Binary_Tree](https://github.com/jJayyyyyyy/OJ/blob/master/LeetCode/201-300/P236_Lowest_Common_Ancestor_of_a_Binary_Tree_*.cpp)
 
+*	更简洁的方法(递归)
+
+	```cpp
+	// LeetCode 235, 236 都适用
+	TreeNode * lowestCommonAncestor(TreeNode * root, TreeNode * p, TreeNode * q){
+		if( root == NULL || root == p || root == q ){
+			return root;
+		}
+		TreeNode * left = lowestCommonAncestor(root->left, p, q);
+		TreeNode * right = lowestCommonAncestor(root->right, p, q);
+		if( left != NULL && right != NULL ){
+			return root;
+		}
+		else{
+			return left==NULL ? right : left;
+		}
+	}
+	```
+
 	<br>
 
 ##	注意
