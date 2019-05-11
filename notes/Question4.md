@@ -578,7 +578,13 @@
 	}
 	```
 
-*	例题: [PAT_A_1143](https://github.com/jJayyyyyyy/OJ/tree/master/PAT/advanced_level/1143_Lowest_Common_Ancestor), [PAT_A_1151](https://github.com/jJayyyyyyy/OJ/blob/master/PAT/advanced_level/1151_LCA_in_a_Binary_Tree/1151_LCA_in_a_Binary_Tree.cpp), [LeetCode, P235_Lowest_Common_Ancestor_of_a_BST](https://github.com/jJayyyyyyy/OJ/blob/master/LeetCode/201-300/P235_Lowest_Common_Ancestor_of_a_BST.cpp)
+*	例题
+
+	[PAT_A_1143](https://github.com/jJayyyyyyy/OJ/tree/master/PAT/advanced_level/1143_Lowest_Common_Ancestor), [PAT_A_1151](https://github.com/jJayyyyyyy/OJ/blob/master/PAT/advanced_level/1151_LCA_in_a_Binary_Tree/1151_LCA_in_a_Binary_Tree.cpp)
+	
+	[LeetCode, P235_Lowest_Common_Ancestor_of_a_BST](https://github.com/jJayyyyyyy/OJ/blob/master/LeetCode/201-300/P235_Lowest_Common_Ancestor_of_a_BST.cpp)
+
+	[LeetCode, P236_Lowest_Common_Ancestor_of_a_Binary_Tree](https://github.com/jJayyyyyyy/OJ/blob/master/LeetCode/201-300/P236_Lowest_Common_Ancestor_of_a_Binary_Tree_*.cpp)
 
 	<br>
 
