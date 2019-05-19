@@ -38,12 +38,6 @@ public:
 			tail = tail->next;
 		}
 
-		if( l1 != NULL ){
-			tail->next = l1;
-		}
-		else{
-			tail->next = l2;
-		}
 		tail->next = l1 ? l1 : l2;
 		return dummyhead.next;
 	}
