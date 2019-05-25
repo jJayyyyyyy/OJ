@@ -5,6 +5,9 @@ https://leetcode.com/problems/remove-all-adjacent-duplicates-in-string/descripti
 
 参考思路
 栈的思想
+https://leetcode.com/problems/remove-all-adjacent-duplicates-in-string/discuss/294893/JavaC++Python-Stack-Idea
+以及
+More Details 里面的最高性能解法
 */
 
 #include <iostream>
