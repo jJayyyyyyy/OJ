@@ -5,6 +5,10 @@ https://leetcode.com/problems/find-and-replace-pattern/description/
 
 参考答案
 https://leetcode.com/problems/find-and-replace-pattern/solution/
+使用两个map, 第一个 mapOf 保存 ch = word[i] 到 p = pattern[i] 的映射, 第二个 mapFrom 保存 p 到 ch 的映射
+如果 mapOf[ch] 为空则 mapOf[ch] = p
+如果 mapFrom[p] 为空则 mapFrom[p] = ch
+然后检查 mapOf 和 mapFrom, 如果 mapOf[ch] != p || mapFrom[p] != ch , 说明出现了不匹配
 */
 
 
