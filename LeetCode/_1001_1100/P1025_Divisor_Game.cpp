@@ -13,6 +13,9 @@ Return True if and only if Alice wins the game, assuming both players play optim
 
 
 同类题目 P1025
+
+数学题，证明题
+
 参考思路
 https://leetcode.com/problems/divisor-game/discuss/274606/JavaC++Python-return-N-2-0
 
