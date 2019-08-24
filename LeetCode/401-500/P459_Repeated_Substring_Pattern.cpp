@@ -14,11 +14,6 @@ https://leetcode.com/problems/repeated-substring-pattern/discuss/94334/Easy-pyth
 
 注意要去掉一头一尾，也就是 max(n) = s.size() - 2，因为 s 循环移位 s.size() 长度后肯定是变回自身的
 
-
-思路2, kmp
-https://leetcode.com/problems/repeated-substring-pattern/discuss/94397/C++-O(n)-using-KMP-32ms-8-lines-of-code-with-brief-explanation.
-
-
 */
 
 #include <iostream>
@@ -40,6 +35,75 @@ public:
 		else {
 			return false;
 		}
+	}
+};
+
+
+
+/*
+可略，我的理解可能是错的
+
+思路2, 结合 kmp 的 prefix table
+https://leetcode.com/problems/repeated-substring-pattern/discuss/94397/C++-O(n)-using-KMP-32ms-8-lines-of-code-with-brief-explanation.
+
+这帮家伙是怎么想到这种方法的[捂脸]
+
+kmp 的 prefix table 存放的是 pattern 的最长公共前后缀长度
+参考 https://www.youtube.com/watch?v=dgPabAsTFa8
+
+接下来的注释直接放在代码上方了
+
+*/
+
+class Solution2 {
+public:
+	bool repeatedSubstringPattern1(string str) {
+		// begin: 生成前缀表 dp[]
+		int i = 1, j = 0, n = str.size();
+		vector<int> dp(n+1,0);
+		while( i < str.size() ){
+			if( str[i] == str[j] ) dp[++i]=++j;
+			else if( j == 0 ) i++;
+			else j = dp[j];
+		}
+		// end: 生成前缀表 dp[]
+
+		// 首先, 如果 dp[n] == 0 那么表示str最后一位没有公共前后缀，所以 str 肯定不是由重复的子串构成
+		// 比如 str = "abc"
+
+
+		// 其次, dp[n] % (n-dp[n]) == 0
+		// 比如 str = "ababab"
+		// dp[n]=4 是str最后一位的最长前后公共前后缀的长度
+		// 即前缀是 [abab] (ab) 方括号的部分
+		// 后缀是 (ab) [abab] 方括号的部分
+		// n - dp 指的是上面 圆括号的部分
+		// dp[n] % (n-dp[n]) == 0 表示 [] 可由多个 () 组成
+		// n % (n-dp[n]) == 0 表示 str 可由多个 () 组成
+		// 即 () 是最长的可以拼接成 str 的 substr
+		// 待补充, 只是字面上的理解, 待证明
+		return dp[n] && dp[n] % (n-dp[n]) == 0;
+		// return dp[n] && n % (n-dp[n]) == 0;
+	}
+
+	bool repeatedSubstringPattern2(string str) {
+		int len = str.length(), i = 0, j = 1;
+		int p[len];
+		// begin: 生成前缀表 p[] 
+		while (j < len){
+			if (str[i] == str[j])
+				p[j++] = ++i;
+			else {
+				if (!i) 
+					p[j++] = 0;
+				else
+					i = p[i - 1];
+			}
+		}
+		// end: 生成前缀表 p[]
+
+		return p[len - 1] && len % (len - p[len - 1]) == 0;
+		// return p[len - 1] && p[len - 1] % (len - p[len - 1]) == 0;
 	}
 };
 
