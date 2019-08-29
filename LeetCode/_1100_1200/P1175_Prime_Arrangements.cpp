@@ -7,10 +7,11 @@ https://leetcode.com/problems/find-words-that-can-be-formed-by-characters/descri
 同类题目 P1175
 
 筛表法
+https://github.com/jJayyyyyyy/OJ/blob/master/notes/Question1.md
+
 设 1~n 中有 x 个素数, y 个非素数
 n = x + y
 ans = x! * y! mod (10^9 + 7)
-
 */
 
 #include <iostream>
