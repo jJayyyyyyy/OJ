@@ -50,4 +50,32 @@ public:
 		}
 		return ans;
 	}
+
+	/*
+	思路2
+	不需要每次都去二分查找
+	由于 1 <= queries[i].length, words[i].length <= 10
+	也就是说最多有 10 种频度
+	我们可以直接把频度保存在 hashmap 里面
+	然后
+	*/
+	vector<int> numSmallerByFrequency_faster(vector<string>& queries, vector<string>& words) {
+		vector<int> freqOfWords(16, 0);
+		for (string word : words) {
+			int freq = getFreq(word);
+			freqOfWords[freq]++;
+		}
+
+		for (int i = 9; i >= 0; i--) {
+			freqOfWords[i] += freqOfWords[i + 1];
+		}
+
+		vector<int> ans;
+		for (string query : queries) {
+			int freq = getFreq(query);
+			int num = freqOfWords[freq + 1];
+			ans.push_back(num);
+		}
+		return ans;
+	}
 };
