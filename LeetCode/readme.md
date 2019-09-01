@@ -1,8 +1,8 @@
 首先是一段视频
 
-https://www.bilibili.com/video/av17084029
+[JavaZone 2012- The Java Heist](https://www.bilibili.com/video/av47794268)
 
-<!--<iframe src="//player.bilibili.com/player.html?aid=17084029&cid=27918844&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>-->
+<!-- <iframe src="//player.bilibili.com/player.html?aid=47794268&cid=83719768&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe> -->
 
 这个视频我很早前就看过了，其中出现了1337这么一个神秘的数字。今天在车上看到一哥们穿着1337的衣服，我就顺手搜了一下，不看不知道一看吓一跳，原来1337和leet是一个意思！
 
