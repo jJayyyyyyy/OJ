@@ -14,9 +14,6 @@ https://leetcode.com/problems/subtract-the-product-and-sum-of-digits-of-an-integ
 */
 
 #include <iostream>
-#include <vector>
-#include <unordered_set>
-#include <unordered_map>
 using namespace std;
 
 class Solution {
