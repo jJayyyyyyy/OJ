@@ -1,14 +1,17 @@
 /*
-https://leetcode.com/problems/two-sum-iv-input-is-a-bst/description/
-判断 BST 中是否存在这样的两个结点，它们的值的和等于 k
-同类题目 P653
+https://leetcode.com/problems/two-sum-iv-input-is-a-bst/description/?goto=old
 
-先按中序遍历 BST，得到递增数组
-然后判断前两个元素之和是否超过了k，或者最后两个元素之和小于k
-最后就是一个二重循环，逐个判断是否存在v1 + v2 == k
 
-1. 除了能加快速度，貌似和BST没啥关系
-2. 把数据放到数组里面，比递归调用函数的开销要小，不过最大的开销还是 I/O 
+双指针 同类题目 P167, P633, P345, P680, P088, P141, P524, P653
+
+输入：根结点root, 目标值 target
+处理：判断 BST 中是否存在这样的两个结点，它们的值的和等于 target
+输出：true / false
+
+思路：
+1. 先按中序遍历 BST，得到递增数组
+2. 双指针夹逼（P167）
+
 */
 
 #include <iostream>
@@ -21,38 +24,45 @@ static int x=[](){
     return 0;
 }();
 
-class Solution{
+struct TreeNode {
+    int val;
+    TreeNode *left, *right;
+    TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+};
+
+class Solution {
+private:
+    vector<int> number_list;
+
+    void in_order_traverse(TreeNode * root) {
+        if ( NULL != root ) {
+            in_order_traverse(root->left);
+            number_list.push_back(root->val);
+            in_order_traverse(root->right);
+        }
+    }
+
 public:
-	vector<int> valList;
+    bool findTarget(TreeNode* root, int target) {
+        in_order_traverse(root);
+        int len = number_list.size();
+        if ( len <= 1 ) {
+            return false;
+        }
 
-	void inOrder(TreeNode * root){
-		if( root != NULL ){
-			inOrder(root->left);
-			valList.push_back(root->val);
-			inOrder(root->right);
-		}
-	}
-
-	bool findTarget(TreeNode* root, int k) {
-		inOrder(root);
-		int len = valList.size();
-
-		if( len < 2 ){
-			return false;
-		}else{
-			if( valList[0] + valList[1] > k || valList[len-2] + valList[len-1] < k ){
-				return false;
-			}else{
-				bool ans = true;
-				for( int i = 0; i < len - 1; i++ ){
-					for( int j = i + 1; j < len; j++ ){
-						if( valList[i] + valList[j] == k ){
-							return true;
-						}
-					}
-				}
-				return false;
-			}
-		}
-	}
+        int i = 0, j = len - 1;
+        while ( i != j ) {
+            int sum = number_list[i] + number_list[j];
+            if ( sum > target ) {
+                j--;
+            }
+            else if ( sum < target ) {
+                i++;
+            }
+            else {
+                return true;
+            }
+        }
+        return false;
+    }
 };
