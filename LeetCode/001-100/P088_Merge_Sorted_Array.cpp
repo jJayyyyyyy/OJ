@@ -2,7 +2,7 @@
 https://leetcode.com/problems/merge-sorted-array/description/?goto=old
 
 双指针归并排序
-双指针 同类题目 P167, P633, P345, P680, P088, P141, P524, P653
+双指针 同类题目 P088, P021, P977, P986
 
 思路：从两个数组的【最后一个】元素逐次向前，两两对比
 */
