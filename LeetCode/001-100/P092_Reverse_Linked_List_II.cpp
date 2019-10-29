@@ -33,14 +33,11 @@ public:
         ListNode dummyhead = ListNode(0);
         dummyhead.next = head;
         ListNode *pre = &dummyhead;
-        ListNode * after = NULL;
         ListNode *p = head;
-        ListNode *h1 = NULL, *h2 = NULL;
         int cnt = 0;
         while ( p != NULL ) {
             cnt++;
             if ( cnt == m ) {
-                h1 = p;
                 break;
             }
             pre = pre->next;
@@ -48,23 +45,22 @@ public:
         }
         int len = n - m;
         for ( int i = 0; i < len; i++ ) {
+            ListNode * tmp = pre->next;
             pre->next = p->next;
             p->next = p->next->next;
-            pre->next->next = p;
-            p = p->next;
+            pre->next->next = tmp;
         }
-        return head;
+        return dummyhead.next;
     }
 };
 
 int main() {
     ListNode * head = new ListNode(1);
     head->next = new ListNode(2);
-    head->next->next = new ListNode(3);
-    head->next->next->next = new ListNode(4);
-    head->next->next->next->next = new ListNode(5);
+//    head->next->next = new ListNode(3);
+//    head->next->next->next = new ListNode(4);
+//    head->next->next->next->next = new ListNode(5);
     Solution s;
-    s.reverseBetween(head, 2, 4);
+    s.reverseBetween(head, 1, 2);
     return 0;
 }
-
