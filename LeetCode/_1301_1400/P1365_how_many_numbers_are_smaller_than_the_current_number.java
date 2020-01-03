@@ -17,7 +17,7 @@ req2: j != i
 
 */
 
-public class Solution {
+class Solution {
     public int[] smallerNumbersThanCurrent(int[] nums) {
         // 用于统计的桶
         // counter[num] 代表了 nums[] 中值为 num 的元素的个数
