@@ -14,9 +14,16 @@ https://leetcode.com/problems/two-sum/description/
         i, j 顺序可以随意
 
 思路1:  双循环暴力搜索, T = O(n^2)
+
+思路2:  利用 HashMap, 其中的 key 表示数组元素的值, val 表示该元素下标.
+        在遍历 nums[] 的时候, 对于 num1 = nums[i],
+        如果 num2 = target - num1 存在于 hashmap, 则找出 j = hashmap[num2], 返回 {i, j}
+        如果 num2 不存在于 hashmap, 那么把 {num1: i} 插入 hashmap
+        T = O(n)
 */
 
 import java.util.HashMap;
+import java.util.Map;
 
 class Solution {
     public int[] twoSum_bruteForce(int[] nums, int target) {
@@ -29,6 +36,27 @@ class Solution {
                     res[1] = j;
                     return res;
                 }
+            }
+        }
+        return res;
+    }
+
+    // HashMap
+    public int[] twoSum_hashMap(int[] nums, int target) {
+        int[] res = new int[2];
+        int length = nums.length;
+        Map<Integer, Integer> map = new HashMap<>();
+        for ( int i = 0; i < length; i++ ) {
+            int num1 = nums[i];
+            int num2 = target - num1;
+            if ( map.containsKey(num2) ) {
+                int j = map.get(num2);
+                res[0] = i;
+                res[1] = j;
+                break;
+            }
+            else {
+                map.put(num1, i);
             }
         }
         return res;
